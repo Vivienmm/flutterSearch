@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app1/page/ImgSearchPage.dart';
+import 'package:flutter_app1/page/YoungSearchPage.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'widget/FullScreenImagePage.dart';
@@ -185,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                 )),
             Container(
               alignment: Alignment.bottomLeft,
-              margin: EdgeInsets.fromLTRB(10, 50, 10, 5),
+
               height: 50,
               child: TabBar(
                   isScrollable: true,
@@ -208,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                   ImgSearchPage(queryWord),
                   ImgSearchPage(queryWord),
                   ImgSearchPage(queryWord),
-                  ImgSearchPage(queryWord),
+                  YoungSearchPage(queryWord),
                 ],
                 controller: mTabController,
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app1/page/ImgSearchPage.dart';
 import 'package:flutter_app1/page/YoungSearchPage.dart';
+import 'package:flutter_app1/page/StorySearchPage.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'widget/FullScreenImagePage.dart';
@@ -127,6 +128,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     mTabList.add(new SearchCategory(id: 2, cname: "图片"));
     mTabList.add(new SearchCategory(id: 3, cname: "视频"));
     mTabList.add(new SearchCategory(id: 4, cname: "花漾"));
+    mTabList.add(new SearchCategory(id: 5, cname: "故事"));
+
     mTabController = TabController(length: mTabList.length, vsync: this);
    // dioDemo();
     DioManager.getInstance().get(ServiceUrl.getImgResult, null, (data) {
@@ -210,6 +213,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                   ImgSearchPage(queryWord),
                   ImgSearchPage(queryWord),
                   YoungSearchPage(queryWord),
+                  StorySearchPage(queryWord),
                 ],
                 controller: mTabController,
               ),

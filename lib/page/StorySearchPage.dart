@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/http/StoryResult.dart';
 import 'package:flutter_app1/util/ColorsUtil.dart';
 import 'package:flutter_app1/widget/ScrollTagView.dart';
-import 'package:flutter_app1/widget/TagView.dart';
+import 'package:flutter_app1/widget/ItemImgTitle.dart';
+import 'package:flutter_app1/widget/ItemNoImg.dart';
+import 'package:flutter_app1/widget/ItemImgDes.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
 
@@ -28,13 +30,13 @@ class _StorySearchPageState extends State<StorySearchPage> {
   ScrollController mScrollController = new ScrollController();
   @override
   bool get wantKeepAlive => true; //必须重写
-  List<Data> mYoungResultList = [];
+  List<Data> mStoryResultList = [];
 
 
   StorySearchPageState() {}
 
 
-  Future getYoungResultList(bool isRefresh) {
+  Future getStoryResultList(bool isRefresh) {
     if (isRefresh) {
       isloadingMore = false;
       ishasMore = true;
@@ -47,9 +49,9 @@ class _StorySearchPageState extends State<StorySearchPage> {
       DioManager.getInstance().get(ServiceUrl.getStoryResult, params, (data) {
 
         List<Data> entityList = OutsideData.fromJson(data['data']).data;
-        mYoungResultList=[];
+        mStoryResultList=[];
         for(int i=0;i<entityList.length;i++){
-          mYoungResultList.add(entityList[i]);
+          mStoryResultList.add(entityList[i]);
         }
 
         setState(() {
@@ -66,7 +68,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
       DioManager.getInstance().get(ServiceUrl.getStoryResult, params, (data) {
 
         List<Data> entityList = OutsideData.fromJson(data['data']).data;
-        mYoungResultList.addAll(entityList);
+        mStoryResultList.addAll(entityList);
         isloadingMore = false;
         ishasMore = entityList.length >= Constant.PAGE_SIZE;
         setState(() {
@@ -119,7 +121,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
 
 
   Future pullToRefresh() async {
-    getYoungResultList(true);
+    getStoryResultList(true);
   }
   @override
   void initState() {
@@ -130,10 +132,10 @@ class _StorySearchPageState extends State<StorySearchPage> {
 
       widget.qury=data.test;
       setState(() {
-        getYoungResultList(true);
+        getStoryResultList(true);
       });
     });
-    getYoungResultList(true);
+    getStoryResultList(true);
     mScrollController.addListener(() {
 
       var maxScroll = mScrollController.position.maxScrollExtent;
@@ -148,7 +150,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
             print("susus"+"滑动到底部");
             Future.delayed(Duration(seconds: 3), () {
 
-              getYoungResultList(false);
+              getStoryResultList(false);
             });
           } else {
             setState(() {
@@ -183,12 +185,21 @@ class _StorySearchPageState extends State<StorySearchPage> {
                   crossAxisSpacing: 4,
                   mainAxisSpacing: 10,
                   physics: new NeverScrollableScrollPhysics(),
-                  itemCount: mYoungResultList.length,
+                  itemCount: mStoryResultList.length,
                   itemBuilder: (context, index) {
-                    if(mYoungResultList[index].imageList.length>0){
-                      return getContentItemImgDes(context, mYoungResultList[index]);
+
+                    int imgLength=mStoryResultList[index].imageList.length;
+                    if(imgLength==0){
+                      return getContentItemTxt(context, mStoryResultList[index]);
+                    }else if(0<imgLength&&imgLength<3){
+                      if(mStoryResultList[index].snippet.length>0){
+                        return getContentItemImgDes(context, mStoryResultList[index]);
+                      }else{
+                        return getContentItemImgNoDes(context, mStoryResultList[index]);
+                      }
+
                     }else{
-                      return getContentItemTxt(context, mYoungResultList[index]);
+                      return getContentItemImgs(context, mStoryResultList[index]);
                     }
 
                   },
@@ -209,71 +220,63 @@ class _StorySearchPageState extends State<StorySearchPage> {
 
 
   Widget getContentItemImgNoDes(BuildContext context, Data mModel) {
+    List<String> tags=[];
+    if (mModel.extend != null && mModel.extend.length > 0) {
+      //先转json
+      var json = jsonDecode(mModel.extend);
+      tags = json['tags'].cast<String>();
+    }
     return Container(
       //  height: 200,
-
-      child: Row(
+      child: Column(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize :MainAxisSize.max,
         children: <Widget>[
+          ItemImgTitle(
+              title:mModel.title,
+              source:mModel.source,
+          imgUrl: mModel.imageList[0]),
+
           Container(
-            height: 70,
-            width: 112,
-            child: ClipRRect(
-              //  borderRadius: BorderRadius.circular(5),
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder:
-                AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                image: NetworkImage(
-                  mModel.imageList[0],
-                ),
-              ),
+            child: Row(
 
-            ),
-          ),
-          Expanded(
-
-            child: Column(
               textDirection: TextDirection.ltr,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize :MainAxisSize.max,
               children: <Widget>[
-                Container(
-                  height: 50,
-                  child: Text(mModel.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: Colors.black)),
+                ScrollTagView(
+                  tags: tags,
+                  backgroundColor: Colors.white,
+                  itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
+                  radius: 15,
+                  tagHeight: 30,
+                  width: 250,
+                  onTap: (text) {
+                    print(text);
+                  },
                 ),
-                Container(
-
-                  child: Text(mModel.timestamp.toString(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-                  //  margin: EdgeInsets.only(left: 60),
-                )
-
               ],
-
             ),
-          )
-
+          ),
 
         ],
 
-
       ),
-
 
     );
   }
 
   Widget getContentItemTxt(BuildContext context, Data mModel) {
+    List<String> tags=[];
+    if (mModel.extend != null && mModel.extend.length > 0) {
+      //先转json
+      var json = jsonDecode(mModel.extend);
+      tags = json['tags'].cast<String>();
+    }
+
     return Container(
       //  height: 200,
 
@@ -283,25 +286,34 @@ class _StorySearchPageState extends State<StorySearchPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize :MainAxisSize.max,
         children: <Widget>[
+          ItemNoImg(
+              title:mModel.title,
+              source:mModel.source),
+
           Container(
-            height: 70,
-            child: Text(mModel.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.black)),
+            child: Row(
+
+              textDirection: TextDirection.ltr,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize :MainAxisSize.max,
+              children: <Widget>[
+                ScrollTagView(
+                  tags: tags,
+                  backgroundColor: Colors.white,
+                  itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
+                  radius: 15,
+                  tagHeight: 30,
+                  width: 250,
+                  onTap: (text) {
+                    print(text);
+                  },
+                ),
+              ],
+            ),
           ),
-          Container(
-
-            child: Text(mModel.timestamp.toString(),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-            //  margin: EdgeInsets.only(left: 60),
-          )
-
 
         ],
-
 
       ),
 
@@ -318,16 +330,6 @@ class _StorySearchPageState extends State<StorySearchPage> {
         tags = json['tags'].cast<String>();
       }
 
-
-//    List<String> tags =  [
-//      '我要好好学习',
-//      'Java',
-//      'Object-C',
-//      'Swift',
-//      'Dart',
-//      'Python',
-//      'Javascript'
-//    ];
     return Container(
       //  height: 200,
 
@@ -337,75 +339,11 @@ class _StorySearchPageState extends State<StorySearchPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize :MainAxisSize.max,
         children: <Widget>[
-          Container(
-            height: 70,
-            child: Text(mModel.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.black)),
-          ),
-           Row(
-            textDirection: TextDirection.ltr,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize :MainAxisSize.max,
-            children: <Widget>[
-              Container(
-                height: 70,
-                width: 112,
-                child: ClipRRect(
-                  //  borderRadius: BorderRadius.circular(5),
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    placeholder:
-                    AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                    image: NetworkImage(
-                      mModel.imageList[0],
-                    ),
-                  ),
-
-                ),
-              ),
-              Expanded(
-
-                child: Column(
-                  textDirection: TextDirection.ltr,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize :MainAxisSize.max,
-                  children: <Widget>[
-                    Container(
-                      height: 50,
-                      child: Text(mModel.snippet,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: Colors.black)),
-                    ),
-                    Container(
-
-                      child: Text(mModel.snippet.toString(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-                      //  margin: EdgeInsets.only(left: 60),
-                    )
-
-                  ],
-
-                ),
-              ),
-
-            ],
-
-
-          ),Container(
-
-            child: Text(mModel.timestamp.toString(),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-            //  margin: EdgeInsets.only(left: 60),
-          ),
+          ItemImgDes(
+              title:mModel.title,
+              source:mModel.source,
+              imgUrl: mModel.imageList[0],
+              snippet: mModel.snippet),
           Container(
             child: Row(
 
@@ -431,10 +369,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
 
         ],
 
-
       ),
-
-
 
     );
   }
@@ -454,7 +389,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
             child: Text(mModel.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.black)),
+                style: TextStyle(fontSize: 16.0, color: Colors.black)),
           ),
 
           Row(
@@ -515,7 +450,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
           ),
           Container(
 
-            child: Text(mModel.timestamp.toString(),
+            child: Text(mModel.source,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 14.0, color: Colors.grey)),

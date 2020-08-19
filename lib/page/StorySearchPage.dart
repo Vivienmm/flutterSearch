@@ -1,8 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/http/StoryResult.dart';
+import 'package:flutter_app1/util/ColorsUtil.dart';
+import 'package:flutter_app1/widget/ScrollTagView.dart';
+import 'package:flutter_app1/widget/TagView.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -182,7 +186,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
                   itemCount: mYoungResultList.length,
                   itemBuilder: (context, index) {
                     if(mYoungResultList[index].imageList.length>0){
-                      return getContentItem(context, mYoungResultList[index]);
+                      return getContentItemImgDes(context, mYoungResultList[index]);
                     }else{
                       return getContentItemTxt(context, mYoungResultList[index]);
                     }
@@ -204,7 +208,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
   }
 
 
-  Widget getContentItem(BuildContext context, Data mModel) {
+  Widget getContentItemImgNoDes(BuildContext context, Data mModel) {
     return Container(
       //  height: 200,
 
@@ -285,6 +289,229 @@ class _StorySearchPageState extends State<StorySearchPage> {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 14.0, color: Colors.black)),
+          ),
+          Container(
+
+            child: Text(mModel.timestamp.toString(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+            //  margin: EdgeInsets.only(left: 60),
+          )
+
+
+        ],
+
+
+      ),
+
+
+    );
+  }
+
+
+  Widget getContentItemImgDes(BuildContext context, Data mModel) {
+    List<String> tags=[];
+      if (mModel.extend != null && mModel.extend.length > 0) {
+        //先转json
+        var json = jsonDecode(mModel.extend);
+        tags = json['tags'].cast<String>();
+      }
+
+
+//    List<String> tags =  [
+//      '我要好好学习',
+//      'Java',
+//      'Object-C',
+//      'Swift',
+//      'Dart',
+//      'Python',
+//      'Javascript'
+//    ];
+    return Container(
+      //  height: 200,
+
+      child: Column(
+        textDirection: TextDirection.ltr,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize :MainAxisSize.max,
+        children: <Widget>[
+          Container(
+            height: 70,
+            child: Text(mModel.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14.0, color: Colors.black)),
+          ),
+           Row(
+            textDirection: TextDirection.ltr,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize :MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                height: 70,
+                width: 112,
+                child: ClipRRect(
+                  //  borderRadius: BorderRadius.circular(5),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder:
+                    AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                    image: NetworkImage(
+                      mModel.imageList[0],
+                    ),
+                  ),
+
+                ),
+              ),
+              Expanded(
+
+                child: Column(
+                  textDirection: TextDirection.ltr,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize :MainAxisSize.max,
+                  children: <Widget>[
+                    Container(
+                      height: 50,
+                      child: Text(mModel.snippet,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 14.0, color: Colors.black)),
+                    ),
+                    Container(
+
+                      child: Text(mModel.snippet.toString(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+                      //  margin: EdgeInsets.only(left: 60),
+                    )
+
+                  ],
+
+                ),
+              ),
+
+            ],
+
+
+          ),Container(
+
+            child: Text(mModel.timestamp.toString(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+            //  margin: EdgeInsets.only(left: 60),
+          ),
+          Container(
+            child: Row(
+
+                textDirection: TextDirection.ltr,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize :MainAxisSize.max,
+                children: <Widget>[
+                  ScrollTagView(
+                    tags: tags,
+                    backgroundColor: Colors.white,
+                    itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
+                    radius: 15,
+                    tagHeight: 30,
+                    width: 250,
+                    onTap: (text) {
+                      print(text);
+                    },
+                  ),
+              ],
+            ),
+          ),
+
+        ],
+
+
+      ),
+
+
+
+    );
+  }
+
+  Widget getContentItemImgs(BuildContext context, Data mModel) {
+    return Container(
+      //  height: 200,
+
+      child: Column(
+        textDirection: TextDirection.ltr,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize :MainAxisSize.max,
+        children: <Widget>[
+          Container(
+            height: 70,
+            child: Text(mModel.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14.0, color: Colors.black)),
+          ),
+
+          Row(
+              textDirection: TextDirection.ltr,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize :MainAxisSize.max,
+              children: <Widget>[
+                Container(
+                  height: 70,
+                  width: 112,
+                  child: ClipRRect(
+                    //  borderRadius: BorderRadius.circular(5),
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder:
+                      AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                      image: NetworkImage(
+                        mModel.imageList[0],
+                      ),
+                    ),
+
+                  ),
+                ),
+                Container(
+                  height: 70,
+                  width: 112,
+                  child: ClipRRect(
+                    //  borderRadius: BorderRadius.circular(5),
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder:
+                      AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                      image: NetworkImage(
+                        mModel.imageList[0],
+                      ),
+                    ),
+
+                  ),
+                ),
+                Container(
+                  height: 70,
+                  width: 112,
+                  child: ClipRRect(
+                    //  borderRadius: BorderRadius.circular(5),
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder:
+                      AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                      image: NetworkImage(
+                        mModel.imageList[0],
+                      ),
+                    ),
+
+                  ),
+                ),
+                ],
           ),
           Container(
 

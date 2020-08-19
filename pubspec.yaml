@@ -58,6 +58,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   dio: 3.0.9
+
   json_schema: ^2.2.1
   flutter_staggered_grid_view:
   cached_network_image: ^2.2.0+1

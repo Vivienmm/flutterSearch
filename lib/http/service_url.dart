@@ -6,4 +6,10 @@ class ServiceUrl{
   static String getImgResult=Constant.baseUrl+"general/v1/search/image";
   static String getYoungResult=Constant.baseUrl+"general/v1/search/youlist";
   static String getStoryResult=Constant.baseUrl+"general/v1/search/story";
+  static String getVideoResult=Constant.baseUrl+"general/v1/search/video";
+  static String getGameResult=Constant.baseUrl+"general/v1/search/game";
+  static String getAppResult=Constant.baseUrl+"general/v1/search/app";
+  static String getEnResult=Constant.baseUrl+"general/v1/search/en";
+  static String getChainResult=Constant.baseUrl+"general/v1/search/blockchain";
+  static String getNewsResult=Constant.baseUrl+"general/v1/search";
 }

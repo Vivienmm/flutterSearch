@@ -1,24 +1,22 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app1/http/YoungResult.dart';
+import 'package:flutter_app1/model/search_video_entity.dart';
 import 'package:flutter_app1/public.dart';
-import 'package:flutter_app1/widget/ItemImgTitle.dart';
-import 'package:flutter_app1/widget/ItemNoImg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app1/widget/FullScreenImagePage.dart';
-class YoungSearchPage extends StatefulWidget{
+class VideoSearchPage extends StatefulWidget{
   String qury="北京";
-  YoungSearchPage(String key){
+  VideoSearchPage(String key){
     this.qury=key;
   }
 
   @override
-  _YoungSearchPageState createState()=>_YoungSearchPageState();
+  _VideoSearchPageState createState()=>_VideoSearchPageState();
 
 }
-class _YoungSearchPageState extends State<YoungSearchPage> {
+class _VideoSearchPageState extends State<VideoSearchPage> {
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -26,13 +24,13 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
   ScrollController mScrollController = new ScrollController();
   @override
   bool get wantKeepAlive => true; //必须重写
-  List<Data> mYoungResultList = [];
+  List<ArrRes> mVideoResultList = [];
 
 
-  ImgSearchPageState() {}
+  VideoSearchPageState() {}
 
 
-  Future getYoungResultList(bool isRefresh) {
+  Future getVideoResultList(bool isRefresh) {
     if (isRefresh) {
       isloadingMore = false;
       ishasMore = true;
@@ -42,12 +40,12 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
         "q":widget.qury,
         'start_index': "$mCurPage",
         "order": "time"});
-      DioManager.getInstance().get(ServiceUrl.getYoungResult, params, (data) {
+      DioManager.getInstance().get(ServiceUrl.getVideoResult, params, (data) {
 
-        List<Data> entityList = OutData.fromJson(data['data']).data;
-        mYoungResultList=[];
+        List<ArrRes> entityList = Data.fromJson(data['data']).arrRes;
+        mVideoResultList=[];
         for(int i=0;i<entityList.length;i++){
-          mYoungResultList.add(entityList[i]);
+          mVideoResultList.add(entityList[i]);
         }
 
         setState(() {
@@ -61,10 +59,11 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
         'start_index': mCurPage,
         "order": "time"});
 
-      DioManager.getInstance().get(ServiceUrl.getYoungResult, params, (data) {
+      DioManager.getInstance().get(ServiceUrl.getVideoResult, params, (data) {
 
-        List<Data> entityList = OutData.fromJson(data['data']).data;
-        mYoungResultList.addAll(entityList);
+
+        List<ArrRes> entityList = Data.fromJson(data['data']).arrRes;
+        mVideoResultList.addAll(entityList);
         isloadingMore = false;
         ishasMore = entityList.length >= Constant.PAGE_SIZE;
         setState(() {
@@ -117,7 +116,7 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
 
 
   Future pullToRefresh() async {
-    getYoungResultList(true);
+    getVideoResultList(true);
   }
   @override
   void initState() {
@@ -125,13 +124,12 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
     super.initState();
     //监听登录事件
     EventBusUtil.getInstance().on<PageEvent>().listen((data) {
-
       widget.qury=data.test;
       setState(() {
-        getYoungResultList(true);
+        getVideoResultList(true);
       });
     });
-    getYoungResultList(true);
+    getVideoResultList(true);
     mScrollController.addListener(() {
 
       var maxScroll = mScrollController.position.maxScrollExtent;
@@ -146,7 +144,7 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
             print("susus"+"滑动到底部");
             Future.delayed(Duration(seconds: 3), () {
 
-              getYoungResultList(false);
+              getVideoResultList(false);
             });
           } else {
             setState(() {
@@ -177,27 +175,16 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
                 child: StaggeredGridView.countBuilder(
                   shrinkWrap: true,
 
-                  crossAxisCount: 1,
+                  crossAxisCount: 4,
                   crossAxisSpacing: 4,
                   mainAxisSpacing: 10,
                   physics: new NeverScrollableScrollPhysics(),
-                  itemCount: mYoungResultList.length,
+                  itemCount: mVideoResultList.length,
                   itemBuilder: (context, index) {
-                    if(mYoungResultList[index].imgs.length>0){
-
-                      return ItemImgTitle(
-                          title:mYoungResultList[index].title,
-                          source:mYoungResultList[index].originalsource,
-                      imgUrl: mYoungResultList[index].imgs[0]);
-                    }else{
-                      return ItemNoImg(
-                          title:mYoungResultList[index].title,
-                          source:mYoungResultList[index].originalsource);
-                    }
-
+                    return itemWidget(index);
                   },
                   staggeredTileBuilder: (index) =>
-                      StaggeredTile.fit(2),
+                      StaggeredTile.count(2,index==0?2:2),
                 ),
               ),
 
@@ -211,105 +198,60 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
 
   }
 
+  Widget  itemWidget(int index){
+    String imgPath = mVideoResultList[index].image_src;
 
-  Widget getContentItem(BuildContext context, Data mModel) {
     return Container(
-      //  height: 200,
-
-      child: Row(
-        textDirection: TextDirection.ltr,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize :MainAxisSize.max,
         children: <Widget>[
-          Container(
-            height: 70,
-            width: 112,
-            child: ClipRRect(
-              //  borderRadius: BorderRadius.circular(5),
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder:
-                AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                image: NetworkImage(
-                  mModel.imgs[0],
+          Material(
+
+            elevation: 8.0,
+            borderRadius: new BorderRadius.all(
+              new Radius.circular(8.0),
+            ),
+            child: new InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) {
+                      return new FullScreenImagePage(imageurl: imgPath);
+                    },
+                  ),
+                );
+              },
+              child: new Hero(
+                tag: imgPath,
+                child: CachedNetworkImage(
+                  height: 120,
+                  imageUrl: imgPath,
+
+                  fit: BoxFit.fitWidth,
+                  /*    placeholder: (context, url) =>
+                      Image.asset('assets/wallfy.png'),*/
                 ),
               ),
-
             ),
+
           ),
-          Expanded(
-
-            child: Column(
-              textDirection: TextDirection.ltr,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize :MainAxisSize.max,
-              children: <Widget>[
-                Container(
-                  height: 50,
-                  child: Text(mModel.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: Colors.black)),
-                ),
-                Container(
-
-                  child: Text(mModel.publishtime,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-                  //  margin: EdgeInsets.only(left: 60),
-                )
-
-              ],
-
-            ),
-          )
-
-
-        ],
-
-
-      ),
-
-
-    );
-  }
-
-  Widget getContentItemTxt(BuildContext context, Data mModel) {
-    return Container(
-      //  height: 200,
-
-      child: Column(
-        textDirection: TextDirection.ltr,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize :MainAxisSize.max,
-        children: <Widget>[
           Container(
-            height: 70,
-            child: Text(mModel.title,
+            height: 40,
+            margin: EdgeInsets.only(bottom: 5),
+            child: Text(mVideoResultList[index].title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 14.0, color: Colors.black)),
-          ),
-          Container(
-
-            child: Text(mModel.publishtime,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.grey)),
             //  margin: EdgeInsets.only(left: 60),
           )
-
-
         ],
-
-
       ),
-
-
     );
+
   }
+
+
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app1/page/ImgSearchPage.dart';
+import 'package:flutter_app1/page/NewsSearchPage.dart';
+import 'package:flutter_app1/page/VideoSearchPage.dart';
 import 'package:flutter_app1/page/YoungSearchPage.dart';
 import 'package:flutter_app1/page/StorySearchPage.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -127,8 +129,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     mTabList.add(new SearchCategory(id: 1, cname: "新闻"));
     mTabList.add(new SearchCategory(id: 2, cname: "图片"));
     mTabList.add(new SearchCategory(id: 3, cname: "视频"));
-    mTabList.add(new SearchCategory(id: 4, cname: "花漾"));
-    mTabList.add(new SearchCategory(id: 5, cname: "故事"));
+    mTabList.add(new SearchCategory(id: 4, cname: "青少年"));
+    mTabList.add(new SearchCategory(id: 5, cname: "好故事"));
+    mTabList.add(new SearchCategory(id: 5, cname: "APP"));
+    mTabList.add(new SearchCategory(id: 5, cname: "区块链"));
+    mTabList.add(new SearchCategory(id: 5, cname: "游戏"));
+    mTabList.add(new SearchCategory(id: 5, cname: "CHina Story"));
 
     mTabController = TabController(length: mTabList.length, vsync: this);
    // dioDemo();
@@ -209,10 +215,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
               flex: 1,
               child: TabBarView(
                 children: <Widget>[
+                  NewsSearchPage(queryWord),
                   ImgSearchPage(queryWord),
-                  ImgSearchPage(queryWord),
-                  ImgSearchPage(queryWord),
+                  VideoSearchPage(queryWord),
                   YoungSearchPage(queryWord),
+                  StorySearchPage(queryWord),
+                  StorySearchPage(queryWord),
+                  StorySearchPage(queryWord),
+                  StorySearchPage(queryWord),
                   StorySearchPage(queryWord),
                 ],
                 controller: mTabController,

@@ -1,24 +1,22 @@
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app1/http/YoungResult.dart';
+import 'package:flutter_app1/model/search_news_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/ItemImgTitle.dart';
 import 'package:flutter_app1/widget/ItemNoImg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_app1/widget/FullScreenImagePage.dart';
-class YoungSearchPage extends StatefulWidget{
-  String qury="北京";
-  YoungSearchPage(String key){
-    this.qury=key;
-  }
 
+class NewsSearchPage extends StatefulWidget{
+  String qury="北京";
+  NewsSearchPage(String keyWord){
+    this.qury=keyWord;
+  }
   @override
-  _YoungSearchPageState createState()=>_YoungSearchPageState();
+  _NewsSearchPageState createState()=> _NewsSearchPageState();
 
 }
-class _YoungSearchPageState extends State<YoungSearchPage> {
+
+class _NewsSearchPageState extends State<NewsSearchPage>{
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -26,13 +24,13 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
   ScrollController mScrollController = new ScrollController();
   @override
   bool get wantKeepAlive => true; //必须重写
-  List<Data> mYoungResultList = [];
+  List<Data> mNewsResultList = [];
 
 
-  ImgSearchPageState() {}
+  NewsSearchPageState() {}
 
 
-  Future getYoungResultList(bool isRefresh) {
+  Future getNewsResultList(bool isRefresh) {
     if (isRefresh) {
       isloadingMore = false;
       ishasMore = true;
@@ -42,12 +40,12 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
         "q":widget.qury,
         'start_index': "$mCurPage",
         "order": "time"});
-      DioManager.getInstance().get(ServiceUrl.getYoungResult, params, (data) {
+      DioManager.getInstance().get(ServiceUrl.getNewsResult, params, (data) {
 
-        List<Data> entityList = OutData.fromJson(data['data']).data;
-        mYoungResultList=[];
+        List<Data> entityList = DataBean.fromJson(data['data']).data;
+        mNewsResultList=[];
         for(int i=0;i<entityList.length;i++){
-          mYoungResultList.add(entityList[i]);
+          mNewsResultList.add(entityList[i]);
         }
 
         setState(() {
@@ -61,10 +59,10 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
         'start_index': mCurPage,
         "order": "time"});
 
-      DioManager.getInstance().get(ServiceUrl.getYoungResult, params, (data) {
+      DioManager.getInstance().get(ServiceUrl.getNewsResult, params, (data) {
 
-        List<Data> entityList = OutData.fromJson(data['data']).data;
-        mYoungResultList.addAll(entityList);
+        List<Data> entityList = DataBean.fromJson(data['data']).data;
+        mNewsResultList.addAll(entityList);
         isloadingMore = false;
         ishasMore = entityList.length >= Constant.PAGE_SIZE;
         setState(() {
@@ -117,7 +115,7 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
 
 
   Future pullToRefresh() async {
-    getYoungResultList(true);
+    getNewsResultList(true);
   }
   @override
   void initState() {
@@ -128,10 +126,10 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
 
       widget.qury=data.test;
       setState(() {
-        getYoungResultList(true);
+        getNewsResultList(true);
       });
     });
-    getYoungResultList(true);
+    getNewsResultList(true);
     mScrollController.addListener(() {
 
       var maxScroll = mScrollController.position.maxScrollExtent;
@@ -146,7 +144,7 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
             print("susus"+"滑动到底部");
             Future.delayed(Duration(seconds: 3), () {
 
-              getYoungResultList(false);
+              getNewsResultList(false);
             });
           } else {
             setState(() {
@@ -181,18 +179,18 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
                   crossAxisSpacing: 4,
                   mainAxisSpacing: 10,
                   physics: new NeverScrollableScrollPhysics(),
-                  itemCount: mYoungResultList.length,
+                  itemCount: mNewsResultList.length,
                   itemBuilder: (context, index) {
-                    if(mYoungResultList[index].imgs.length>0){
+                    if(mNewsResultList[index].imageList.length>0){
 
                       return ItemImgTitle(
-                          title:mYoungResultList[index].title,
-                          source:mYoungResultList[index].originalsource,
-                      imgUrl: mYoungResultList[index].imgs[0]);
+                          title:mNewsResultList[index].title,
+                          source:mNewsResultList[index].source,
+                          imgUrl: mNewsResultList[index].imageList[0]);
                     }else{
                       return ItemNoImg(
-                          title:mYoungResultList[index].title,
-                          source:mYoungResultList[index].originalsource);
+                          title:mNewsResultList[index].title,
+                          source:mNewsResultList[index].source);
                     }
 
                   },
@@ -232,7 +230,7 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
                 placeholder:
                 AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
                 image: NetworkImage(
-                  mModel.imgs[0],
+                  mModel.imageList[0],
                 ),
               ),
 
@@ -255,7 +253,7 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
                 ),
                 Container(
 
-                  child: Text(mModel.publishtime,
+                  child: Text(mModel.timestamp.toString(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 14.0, color: Colors.grey)),
@@ -296,7 +294,7 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
           ),
           Container(
 
-            child: Text(mModel.publishtime,
+            child: Text(mModel.timestamp.toString(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 14.0, color: Colors.grey)),
@@ -312,4 +310,10 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
 
     );
   }
+
+
+
+
+
+
 }

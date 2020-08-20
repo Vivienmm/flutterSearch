@@ -253,36 +253,6 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
       ),
     );
 
-    return new Material(
-
-      elevation: 8.0,
-      borderRadius: new BorderRadius.all(
-        new Radius.circular(8.0),
-      ),
-      child: new InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (context) {
-                return new FullScreenImagePage(imageurl: imgPath);
-              },
-            ),
-          );
-        },
-        child: new Hero(
-          tag: imgPath,
-          child: CachedNetworkImage(
-            imageUrl: imgPath,
-
-            fit: BoxFit.fitWidth,
-            /*    placeholder: (context, url) =>
-                      Image.asset('assets/wallfy.png'),*/
-          ),
-        ),
-      ),
-
-    );
   }
 
 

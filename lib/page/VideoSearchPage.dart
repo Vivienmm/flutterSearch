@@ -239,10 +239,11 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
 
           ),
           Container(
-            height: 40,
+
             margin: EdgeInsets.only(bottom: 5),
             child: Text(mVideoResultList[index].title,
-                maxLines: 2,
+                maxLines: 3,
+
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 14.0, color: Colors.black)),
             //  margin: EdgeInsets.only(left: 60),

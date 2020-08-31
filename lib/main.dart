@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_app1/page/AppSearchPage.dart';
 import 'package:flutter_app1/page/ImgSearchPage.dart';
 import 'package:flutter_app1/page/NewsSearchPage.dart';
 import 'package:flutter_app1/page/VideoSearchPage.dart';
@@ -220,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                   VideoSearchPage(queryWord),
                   YoungSearchPage(queryWord),
                   StorySearchPage(queryWord),
-                  StorySearchPage(queryWord),
+                  AppSearchPage(queryWord),
                   StorySearchPage(queryWord),
                   StorySearchPage(queryWord),
                   StorySearchPage(queryWord),

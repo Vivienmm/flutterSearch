@@ -54,9 +54,9 @@ class _StorySearchPageState extends State<StorySearchPage> {
           mStoryResultList.add(entityList[i]);
         }
 
-        setState(() {
-
-        });
+//        setState(() {
+//
+//        });
       }, (error) {});
     } else {
       FormData params =

@@ -1,3 +1,4 @@
+
 class search_block_entity {
   int status;
   String msg;
@@ -122,7 +123,12 @@ class SearchResults {
     url = json['url'];
     author = json['author'];
     imageList = json['image_list'].cast<String>();
-    videoList = json['video_list'].cast<String>();
+    if(null!=json['video_list']){
+      videoList = json['video_list'].cast<String>();
+    }else{
+      videoList=[];
+    }
+
     radioList = json['radio_list'];
     sameNewsNum = json['same_news_num'];
     extend = json['extend'];

@@ -115,6 +115,8 @@ flutter:
     - assets/images/img_default2.jpeg
     - assets/images/find_top_search.jpg
     - assets/images/Icon/btn_seach@2x.png
+    - assets/images/certi.png
+    - assets/images/chain_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

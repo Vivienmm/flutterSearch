@@ -8,7 +8,7 @@ import 'package:flutter_app1/widget/ItemNoImg.dart';
 import 'package:flutter_app1/widget/ItemImgDes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/loading_container.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 class AppSearchPage extends StatefulWidget{
   String qury="北京";
   AppSearchPage(String key){

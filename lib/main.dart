@@ -13,6 +13,7 @@ import 'dart:convert';
 import 'http/ImgResult.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/SearchAppBarWidget.dart';
+import 'package:flutter_app1/page/chain_page_search.dart';
 import 'package:flutter/services.dart';
 void main() {
   runApp(MyApp());
@@ -222,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                   YoungSearchPage(queryWord),
                   StorySearchPage(queryWord),
                   AppSearchPage(queryWord),
-                  StorySearchPage(queryWord),
+                  ChainSearchPage(queryWord),
                   StorySearchPage(queryWord),
                   StorySearchPage(queryWord),
                 ],

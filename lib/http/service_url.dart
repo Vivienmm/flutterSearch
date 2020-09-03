@@ -10,6 +10,6 @@ class ServiceUrl{
   static String getGameResult=Constant.baseUrl+"general/v1/search/game";
   static String getAppResult=Constant.baseUrl+"general/v1/search/appgroup";
   static String getEnResult=Constant.baseUrl+"general/v1/search/en";
-  static String getChainResult=Constant.baseUrl+"general/v1/search/blockchain";
+  static String getChainResult=Constant.baseUrl+"general/v1/search/blockchaingroup";
   static String getNewsResult=Constant.baseUrl+"general/v1/search";
 }

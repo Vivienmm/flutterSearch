@@ -30,7 +30,7 @@ class _ChainHeightWithCerState extends State<ChainHeightWithCer> {
       return ChainHeightWithoutCer(height: widget.height,hashCodePrint: widget.hashCodePrint,);
     }else{
       return Container(
-          width: 300,
+          width: double.infinity,
           height:60 ,
           decoration: BoxDecoration(
             color:  LcfarmColor.chainBgColor.withOpacity(.5),
@@ -64,37 +64,7 @@ class _ChainHeightWithCerState extends State<ChainHeightWithCer> {
 
       );
     }
-    return Container(
-      width: double.infinity,
-      height:76 ,
-      decoration: BoxDecoration(
-        color:  LcfarmColor.chainBgColor.withOpacity(.5),
-      ),
-      child:Row(
-        children: <Widget>[
-          ChainCerti(
 
-          ),
-          Expanded(
-            child:Column(
-              children: <Widget>[
-
-                Text(
-                    "区块高度"+widget.height,
-                    style: TextStyle(fontSize: 13.0, color: LcfarmColor.colorTitle)
-                ),
-
-                Text(widget.hashCodePrint,style: TextStyle(fontSize: 13.0, color: LcfarmColor.colorTitle,fontWeight: FontWeight.bold))
-              ],
-            ),
-          )
-
-        ],
-      )
-
-
-
-    );
   }
 
 }

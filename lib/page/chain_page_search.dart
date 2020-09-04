@@ -7,8 +7,10 @@ import 'package:flutter_app1/widget/ItemImgTitle.dart';
 import 'package:flutter_app1/widget/ItemNoImg.dart';
 import 'package:flutter_app1/widget/ItemImgDes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/chain_view_no_img.dart';
 import 'package:flutter_app1/widget/loading_container.dart';
 import 'package:flutter_app1/widget/chain_view_adapter.dart';
+
 
 class ChainSearchPage extends StatefulWidget{
   String qury="北京";
@@ -267,26 +269,26 @@ class _ChainSearchPageState extends State<ChainSearchPage> {
 
   }
 
-  Widget ChainNewsList (BuildContext context,Data  data) {
-    return Container(
-      height:500,
-      width: double.infinity,
-
-      child: ListView.builder(
-        physics:NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        itemCount: data.searchResults.length,
-        itemBuilder:(context, index){
-          return ItemNoImg(
-            title: data.searchResults[index].title,
-            source: data.searchResults[index].source,
-          );
-        },
-
-      ),
-    );
-
-  }
+//  Widget ChainNewsList (BuildContext context,Data  data) {
+//    return Container(
+//      height:500,
+//      width: double.infinity,
+//
+//      child: ListView.builder(
+//        physics:NeverScrollableScrollPhysics(),
+//        scrollDirection: Axis.vertical,
+//        itemCount: data.searchResults.length,
+//        itemBuilder:(context, index){
+//          return ItemNoImg(
+//            title: data.searchResults[index].title,
+//            source: data.searchResults[index].source,
+//          );
+//        },
+//
+//      ),
+//    );
+//
+//  }
 }
 
 Widget ChainVideoList (BuildContext context,Data  data) {
@@ -308,17 +310,14 @@ Widget ChainVideoList (BuildContext context,Data  data) {
 
   Widget ChainNewsList (BuildContext context,Data  data) {
     return Container(
-
+      height:500,
       width: double.infinity,
       child: ListView.builder(
-
+        physics:NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         itemCount: data.searchResults.length,
         itemBuilder:(context, index){
-          return ItemNoImg(
-                  title: data.searchResults[index].title,
-                  source: data.searchResults[index].source,
-                );
+          return ChainViewNoImg(result:data.searchResults[index]);
         },
 
       ),

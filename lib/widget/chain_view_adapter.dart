@@ -100,49 +100,5 @@ class _ChainViewAdapterState extends State<ChainViewAdapter> {
 
     );
 
-    return Container(
-        height: 310,
-        width: 300,
-        margin: EdgeInsets.only(left: 10, right: 2.5),
-        decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        image: DecorationImage(
-        fit: BoxFit.fill,
-        image: NetworkImage(widget.result.imageList[0]))),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Align(
-                alignment: Alignment.topRight,
-                child:Container(
-                  margin: EdgeInsets.only(top: 3),
-                    decoration: BoxDecoration(
-                        color:  Colors.black.withOpacity(.5),
-//                        image: DecorationImage(
-//                          fit:BoxFit.fill ,
-//                          image: AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-//
-                    ),
-                  child: Text(
-                      "图片溯源",
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
-                )
-            ),
-            Flexible(fit: FlexFit.tight, child: SizedBox()),//这个是实现一个左对齐，一个右对齐的关键
-            Align(
-          alignment: Alignment.bottomLeft,
-            child:Container(
-              margin: EdgeInsets.only(top: 3),
-              child: Text(
-                  widget.result.title,
-                  style: TextStyle(fontSize: 16, color: Colors.white)),
-            )
-        ),
-            ChainViewSource(source: widget.result.source,time: widget.result.publishTimstamp.toString(),),
-         ]
-      ),
-
-    );
   }
 }

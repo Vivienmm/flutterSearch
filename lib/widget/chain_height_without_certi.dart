@@ -23,7 +23,7 @@ class _ChainHeightWithoutCerState extends State<ChainHeightWithoutCer> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      width: 300,
+      width: double.infinity,
       height:60 ,
       decoration: BoxDecoration(
         color:  LcfarmColor.chainBgColor.withOpacity(.5),

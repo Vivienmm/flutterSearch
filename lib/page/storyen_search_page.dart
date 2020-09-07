@@ -1,6 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app1/http/StoryResult.dart';
+import 'package:flutter_app1/model/search_en_story_entity.dart';
 import 'package:flutter_app1/util/ColorsUtil.dart';
 import 'package:flutter_app1/widget/ScrollTagView.dart';
 import 'package:flutter_app1/widget/ItemImgTitle.dart';
@@ -9,19 +9,17 @@ import 'package:flutter_app1/widget/ItemImgDes.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/loading_container.dart';
-
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-class StorySearchPage extends StatefulWidget{
+class StoryEnEnSearchPage extends StatefulWidget{
   String qury="北京";
-  StorySearchPage(String key){
+  StoryEnEnSearchPage(String key){
     this.qury=key;
   }
 
   @override
-  _StorySearchPageState createState()=>_StorySearchPageState();
+  _StoryEnEnSearchPageState createState()=>_StoryEnEnSearchPageState();
 
 }
-class _StorySearchPageState extends State<StorySearchPage> {
+class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> {
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -29,13 +27,13 @@ class _StorySearchPageState extends State<StorySearchPage> {
   ScrollController mScrollController = new ScrollController();
   @override
   bool get wantKeepAlive => true; //必须重写
-  List<Data> mStoryResultList = [];
+  List<Data> mStoryEnResultList = [];
 
 
-  StorySearchPageState() {}
+  StoryEnSearchPageState() {}
 
 
-  Future getStoryResultList(bool isRefresh) {
+  Future getStoryEnResultList(bool isRefresh) {
     if (isRefresh) {
       isloadingMore = false;
       ishasMore = true;
@@ -45,12 +43,12 @@ class _StorySearchPageState extends State<StorySearchPage> {
         "q":widget.qury,
         'start_index': "$mCurPage",
         "order": "time"});
-      DioManager.getInstance().get(ServiceUrl.getStoryResult, params, (data) {
+      DioManager.getInstance().get(ServiceUrl.getEnResult, params, (data) {
 
-        List<Data> entityList = OutsideData.fromJson(data['data']).data;
-        mStoryResultList=[];
+        List<Data> entityList = DataBean.fromJson(data['data']).data;
+        mStoryEnResultList=[];
         for(int i=0;i<entityList.length;i++){
-          mStoryResultList.add(entityList[i]);
+          mStoryEnResultList.add(entityList[i]);
         }
 
         setState(() {
@@ -64,10 +62,10 @@ class _StorySearchPageState extends State<StorySearchPage> {
         'start_index': mCurPage,
         "order": "time"});
 
-      DioManager.getInstance().get(ServiceUrl.getStoryResult, params, (data) {
+      DioManager.getInstance().get(ServiceUrl.getEnResult, params, (data) {
 
-        List<Data> entityList = OutsideData.fromJson(data['data']).data;
-        mStoryResultList.addAll(entityList);
+        List<Data> entityList = DataBean.fromJson(data['data']).data;
+        mStoryEnResultList.addAll(entityList);
         isloadingMore = false;
         ishasMore = entityList.length >= Constant.PAGE_SIZE;
         setState(() {
@@ -120,7 +118,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
 
 
   Future pullToRefresh() async {
-    getStoryResultList(true);
+    getStoryEnResultList(true);
   }
   @override
   void initState() {
@@ -131,10 +129,10 @@ class _StorySearchPageState extends State<StorySearchPage> {
 
       widget.qury=data.test;
       setState(() {
-        getStoryResultList(true);
+        getStoryEnResultList(true);
       });
     });
-    getStoryResultList(true);
+    getStoryEnResultList(true);
     mScrollController.addListener(() {
 
       var maxScroll = mScrollController.position.maxScrollExtent;
@@ -149,7 +147,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
             print("susus"+"滑动到底部");
             Future.delayed(Duration(seconds: 3), () {
 
-              getStoryResultList(false);
+              getStoryEnResultList(false);
             });
           } else {
             setState(() {
@@ -168,40 +166,40 @@ class _StorySearchPageState extends State<StorySearchPage> {
     final double mGridItemWidth = size.width / 2;
 
     return Scaffold(
-        body: LoadingContainer(
-          isLoading: isloadingMore,
-          child: RefreshIndicator(
-            // key: _refreshIndicatorKey,
+      body: LoadingContainer(
+        isLoading: isloadingMore,
+        child: RefreshIndicator(
+          // key: _refreshIndicatorKey,
 
-            onRefresh: pullToRefresh,
-                child: ListView.builder(
-                  shrinkWrap: true,
+          onRefresh: pullToRefresh,
+          child: ListView.builder(
+            shrinkWrap: true,
 
-                  physics: new NeverScrollableScrollPhysics(),
-                  itemCount: mStoryResultList.length,
-                  itemBuilder: (context, index) {
+            physics: new NeverScrollableScrollPhysics(),
+            itemCount: mStoryEnResultList.length,
+            itemBuilder: (context, index) {
 
-                    int imgLength=mStoryResultList[index].imageList.length;
+              int imgLength=mStoryEnResultList[index].imageList.length;
 
 
-                    if(imgLength==0){
-                      return getContentItemTxt(context, mStoryResultList[index]);
-                    }else if(0<imgLength&&imgLength<3){
-                      if(mStoryResultList[index].snippet.length>0){
-                        return getContentItemImgDes(context, mStoryResultList[index]);
-                      }else{
-                        return getContentItemImgNoDes(context, mStoryResultList[index]);
-                      }
+              if(imgLength==0){
+                return getContentItemTxt(context, mStoryEnResultList[index]);
+              }else if(0<imgLength&&imgLength<3){
+                if(mStoryEnResultList[index].snippet.length>0){
+                  return getContentItemImgDes(context, mStoryEnResultList[index]);
+                }else{
+                  return getContentItemImgNoDes(context, mStoryEnResultList[index]);
+                }
 
-                    }else{
-                      return getContentItemImgs(context, mStoryResultList[index]);
-                    }
+              }else{
+                return getContentItemImgs(context, mStoryEnResultList[index]);
+              }
 
-                  },
-                ),
-              ),
+            },
+          ),
+        ),
 
-            ),
+      ),
 
     );
 
@@ -226,7 +224,7 @@ class _StorySearchPageState extends State<StorySearchPage> {
           ItemImgTitle(
               title:mModel.title,
               source:mModel.source,
-          imgUrl: mModel.imageList[0]),
+              imgUrl: mModel.imageList[0]),
 
           Container(
             child: Row(
@@ -313,11 +311,11 @@ class _StorySearchPageState extends State<StorySearchPage> {
 
   Widget getContentItemImgDes(BuildContext context, Data mModel) {
     List<String> tags=[];
-      if (mModel.extend != null && mModel.extend.length > 0) {
-        //先转json
-        var json = jsonDecode(mModel.extend);
-        tags = json['tags'].cast<String>();
-      }
+    if (mModel.extend != null && mModel.extend.length > 0) {
+      //先转json
+      var json = jsonDecode(mModel.extend);
+      tags = json['tags'].cast<String>();
+    }
 
     return Container(
       //  height: 200,
@@ -336,22 +334,22 @@ class _StorySearchPageState extends State<StorySearchPage> {
           Container(
             child: Row(
 
-                textDirection: TextDirection.ltr,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize :MainAxisSize.max,
-                children: <Widget>[
-                  ScrollTagView(
-                    tags: tags,
-                    backgroundColor: Colors.white,
-                    itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
-                    radius: 15,
-                    tagHeight: 30,
-                    width: 250,
-                    onTap: (text) {
-                      print(text);
-                    },
-                  ),
+              textDirection: TextDirection.ltr,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize :MainAxisSize.max,
+              children: <Widget>[
+                ScrollTagView(
+                  tags: tags,
+                  backgroundColor: Colors.white,
+                  itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
+                  radius: 15,
+                  tagHeight: 30,
+                  width: 250,
+                  onTap: (text) {
+                    print(text);
+                  },
+                ),
               ],
             ),
           ),
@@ -382,60 +380,60 @@ class _StorySearchPageState extends State<StorySearchPage> {
           ),
 
           Row(
-              textDirection: TextDirection.ltr,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize :MainAxisSize.max,
-              children: <Widget>[
-                Container(
-                  height: 70,
-                  width: 112,
-                  child: ClipRRect(
-                    //  borderRadius: BorderRadius.circular(5),
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder:
-                      AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                      image: NetworkImage(
-                        mModel.imageList[0],
-                      ),
+            textDirection: TextDirection.ltr,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize :MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                height: 70,
+                width: 112,
+                child: ClipRRect(
+                  //  borderRadius: BorderRadius.circular(5),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder:
+                    AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                    image: NetworkImage(
+                      mModel.imageList[0],
                     ),
-
                   ),
+
                 ),
-                Container(
-                  height: 70,
-                  width: 112,
-                  child: ClipRRect(
-                    //  borderRadius: BorderRadius.circular(5),
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder:
-                      AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                      image: NetworkImage(
-                        mModel.imageList[0],
-                      ),
+              ),
+              Container(
+                height: 70,
+                width: 112,
+                child: ClipRRect(
+                  //  borderRadius: BorderRadius.circular(5),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder:
+                    AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                    image: NetworkImage(
+                      mModel.imageList[0],
                     ),
-
                   ),
+
                 ),
-                Container(
-                  height: 70,
-                  width: 112,
-                  child: ClipRRect(
-                    //  borderRadius: BorderRadius.circular(5),
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder:
-                      AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                      image: NetworkImage(
-                        mModel.imageList[0],
-                      ),
+              ),
+              Container(
+                height: 70,
+                width: 112,
+                child: ClipRRect(
+                  //  borderRadius: BorderRadius.circular(5),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder:
+                    AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                    image: NetworkImage(
+                      mModel.imageList[0],
                     ),
-
                   ),
+
                 ),
-                ],
+              ),
+            ],
           ),
           Container(
 

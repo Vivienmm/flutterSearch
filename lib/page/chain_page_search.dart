@@ -269,26 +269,7 @@ class _ChainSearchPageState extends State<ChainSearchPage> {
 
   }
 
-//  Widget ChainNewsList (BuildContext context,Data  data) {
-//    return Container(
-//      height:500,
-//      width: double.infinity,
-//
-//      child: ListView.builder(
-//        physics:NeverScrollableScrollPhysics(),
-//        scrollDirection: Axis.vertical,
-//        itemCount: data.searchResults.length,
-//        itemBuilder:(context, index){
-//          return ItemNoImg(
-//            title: data.searchResults[index].title,
-//            source: data.searchResults[index].source,
-//          );
-//        },
-//
-//      ),
-//    );
-//
-//  }
+
 }
 
 Widget ChainVideoList (BuildContext context,Data  data) {

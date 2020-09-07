@@ -6,6 +6,7 @@ import 'package:flutter_app1/page/NewsSearchPage.dart';
 import 'package:flutter_app1/page/VideoSearchPage.dart';
 import 'package:flutter_app1/page/YoungSearchPage.dart';
 import 'package:flutter_app1/page/StorySearchPage.dart';
+import 'package:flutter_app1/page/game_search_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'widget/FullScreenImagePage.dart';
@@ -224,8 +225,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                   StorySearchPage(queryWord),
                   AppSearchPage(queryWord),
                   ChainSearchPage(queryWord),
-                  StorySearchPage(queryWord),
-                  StorySearchPage(queryWord),
+                  GameSearchPage(queryWord),
+                  AppSearchPage(queryWord),
                 ],
                 controller: mTabController,
               ),

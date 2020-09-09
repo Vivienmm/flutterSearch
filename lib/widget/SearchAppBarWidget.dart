@@ -18,7 +18,7 @@ class SearchAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 
   const SearchAppBarWidget(
       {Key key,
-        this.height: 46.0,
+        this.height: 60.0,
         this.elevation: 0.5,
         this.leading,
         this.hintText: '搜索',

@@ -8,6 +8,9 @@ import 'package:flutter_app1/page/YoungSearchPage.dart';
 import 'package:flutter_app1/page/StorySearchPage.dart';
 import 'package:flutter_app1/page/game_search_page.dart';
 import 'package:flutter_app1/page/storyen_search_page.dart';
+import 'package:flutter_app1/util/LcfarmColor.dart';
+import 'package:flutter_app1/widget/CSSearchBar.dart';
+import 'package:flutter_app1/widget/CSTabIndicator.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'widget/FullScreenImagePage.dart';
@@ -17,6 +20,7 @@ import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/SearchAppBarWidget.dart';
 import 'package:flutter_app1/page/chain_page_search.dart';
 import 'package:flutter/services.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -167,10 +171,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-        appBar: new SearchAppBarWidget(
+        appBar: new CsSearchBar(
         focusNode: _focusNode,
         controller: _controller,
-        elevation: 2.0,
         inputFormatters: [
         LengthLimitingTextInputFormatter(150),
     ],
@@ -203,12 +206,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
               height: 50,
               child: TabBar(
                   isScrollable: true,
-                  indicatorColor: Colors.transparent,
-                  labelColor: Color(0xffF78005),
-                  unselectedLabelColor: Color(0xff666666),
-                  labelStyle:TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
+                  indicator: RoundUnderlineTabIndicator(
+                      borderSide: BorderSide(
+                        width: 3.5,
+                        color:LcfarmColor.themeColor,
+                      )
+                  ),
+                  indicatorColor: LcfarmColor.themeColor,
+                  labelColor: Color(0xff222222),
+                  unselectedLabelColor: Color(0xff555555),
+                  labelStyle:TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
                   unselectedLabelStyle: TextStyle(fontSize: 16.0),
                   indicatorSize: TabBarIndicatorSize.label,
+                  indicatorWeight: 4,
+
                   controller: mTabController,
                   tabs: mTabList.map((value) {
                     return Text(value.cname);

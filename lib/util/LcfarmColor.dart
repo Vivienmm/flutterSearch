@@ -19,4 +19,5 @@ class LcfarmColor {
   static const Color colorChainBlue = const Color(0xff4F6EDD);
   static const Color colorTitle = const Color(0xff222222);
   static const Color chainBgColor = const Color(0xfff4faff);
+  static const Color themeColor = const Color(0xffE71F26);
 }

@@ -1,56 +1,82 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app1/widget/SearchAppBarWidget.dart';
-import 'package:flutter_app1/util/ColorsUtil.dart';
-import 'package:flutter_app1/widget/MoreWidgets.dart';
 import 'package:flutter_app1/constant/constant.dart';
+import 'package:flutter_app1/util/ColorsUtil.dart';
+import 'package:flutter_app1/util/LcfarmColor.dart';
+
+class CsSearchBar extends StatefulWidget implements PreferredSizeWidget {
+
+  final Widget leading;
+  final String hintText;
+  final FocusNode focusNode;
+  final TextEditingController controller;
+  final List<TextInputFormatter> inputFormatters;
+  final VoidCallback onEditingComplete;
 
 
-class SearchAppBarState extends State<SearchAppBarWidget> {
-  bool _hasDeleteIcon = false;
+  const CsSearchBar(
+      {Key key,
+        this.leading,
+        this.hintText: '搜索',
+        this.focusNode,
+        this.controller,
+        this.inputFormatters,
+        this.onEditingComplete,
+        })
+      : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+    return new CsSearchBarState();
+
+  }
+
+  ///这里设置控件（appBar）的高度
+  @override
+  Size get preferredSize => Size.fromHeight(45);
+}
+
+class CsSearchBarState extends State< CsSearchBar>{
+  bool _hasDeleteIcon = false;
+  @override
   Widget build(BuildContext context) {
+    // TODO: implement build）
     return new PreferredSize(
-      child: new Stack(
+      child: new Stack (
         children: <Widget>[
-          Offstage(
-            offstage: false,
-            child:
-            MoreWidgets.buildAppBar(context, '', leading: widget.leading),
-          ),
-          Offstage(
-            offstage: false,
-            child: Flex(
-              direction: Axis.horizontal,
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    margin: EdgeInsets.only(left:60,top: 40,right: 40),
-                    padding: const EdgeInsets.only(left: 2.0, top: 5.0),
-                    alignment: Alignment.centerLeft,
-                    width: 300,
+          Flex(
+            direction: Axis.horizontal,
+            children: <Widget>[
+              Expanded(
+                child: Container(
+
+                  height: 45,
+                  margin: EdgeInsets.only(left:60,top: 40,right: 20),
+                  padding: const EdgeInsets.only(left: 8.0, top: 3.0,right: 8),
+                  alignment: Alignment.centerLeft,
+
 //边框设置
-                    decoration: new BoxDecoration(
+                  decoration: new BoxDecoration(
 //背景
                       color: Colors.white,
-                      //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      //设置四周边框
-                      border: new Border.all(width: 1, color: Colors.red),
-                    ),
-                    child: Container(
-                //设置 child 居中
-                      alignment: Alignment(0, 0),
-                      height: 20,
-                      width: 200,
-                      child: new TextField(
-                      focusNode: widget.focusNode,
+                    //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    //设置四周边框
+                    border: new Border.all(width: 1, color: Colors.red),
 
+                  ),
+                  child: Container(
+                    //设置 child 居中
+                    alignment:Alignment.centerLeft,
+                    height: 40,
+
+                    child: new TextField(
+                      focusNode: widget.focusNode,
+                      textAlign: TextAlign.left,
                       /// 键盘类型
                       keyboardType: TextInputType.text,
+
 
                       ///控制键盘的功能键 指enter键，比如此处设置为next时，enter键
                       textInputAction: TextInputAction.search,
@@ -59,13 +85,15 @@ class SearchAppBarState extends State<SearchAppBarWidget> {
                       inputFormatters: widget.inputFormatters,
                       decoration: InputDecoration(
                         hintText: widget.hintText,
+                        contentPadding: EdgeInsets.all(1.0),
                         hintStyle: TextStyle(
-                          color: Colors.black,
+                          color: Colors.grey,
                           fontSize: 16,
                         ),
                         suffixIcon: Container(
                           padding: EdgeInsetsDirectional.only(
                             start: 2.0,
+
                             end: _hasDeleteIcon ? 0.0 : 0,
                           ),
                           child: _hasDeleteIcon
@@ -84,9 +112,9 @@ class SearchAppBarState extends State<SearchAppBarWidget> {
                               color: Colors.grey,
                             ),
                           )
-                              : new Text('取消'),
+                              : new Text(''),
                         ),
-                        contentPadding: EdgeInsets.fromLTRB(30, 10, 0, 0),
+
                         filled: true,
                         fillColor: ColorsUtil.hexColor(0xffffff),
                         border: OutlineInputBorder(
@@ -109,11 +137,11 @@ class SearchAppBarState extends State<SearchAppBarWidget> {
 
                       onEditingComplete: widget.onEditingComplete,
                     ),
-                    ),
                   ),
                 ),
+              ),
 
-                /// 取消按钮
+              /// 取消按钮
 //                InkWell(
 //                  child: Container(
 //                    alignment: Alignment.center,
@@ -129,13 +157,12 @@ class SearchAppBarState extends State<SearchAppBarWidget> {
 ////                      Navigator.of(context).pop();
 //                  },
 //                ),
-              ],
-            ),
+            ],
           ),
-          /// 搜索图标 （可以在TextField  prefixIcon 可以直接定义icon）
           Positioned(
             left: 16,
-            top: 44,
+            top: 40,
+
             child: Image.asset(
               Constant.ASSETS_IMG + 'search_bar_icon.png',
               width: 28,
@@ -144,14 +171,16 @@ class SearchAppBarState extends State<SearchAppBarWidget> {
 //              //  "assets/images/Icon/btn_seach@2x.png",
 //                Constant.ASSETS_IMG + 'img_default2.jpeg'
 //              ),
-             // color: ColorsUtil.hexColor(0x333333),
+              // color: ColorsUtil.hexColor(0x333333),
             ),
           ),
         ],
       ),
-      preferredSize: Size.fromHeight(widget.height),
     );
   }
+
 }
+
+
 
 

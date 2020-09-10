@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_app1/page/AppSearchPage.dart';
+import 'package:flutter_app1/page/search_app_page.dart';
 import 'package:flutter_app1/page/search_img_page.dart';
 import 'package:flutter_app1/page/search_news_page.dart';
 import 'package:flutter_app1/page/search_video_page.dart';
 import 'package:flutter_app1/page/search_young_page.dart';
-import 'package:flutter_app1/page/StorySearchPage.dart';
-import 'package:flutter_app1/page/game_search_page.dart';
-import 'package:flutter_app1/page/storyen_search_page.dart';
+import 'package:flutter_app1/page/search_story_page.dart';
+import 'package:flutter_app1/page/search_game_page.dart';
+import 'package:flutter_app1/page/search_storyen_page.dart';
 import 'package:flutter_app1/util/LcfarmColor.dart';
 import 'package:flutter_app1/widget/CSSearchBar.dart';
 import 'package:flutter_app1/widget/CSTabIndicator.dart';
@@ -18,7 +18,7 @@ import 'dart:convert';
 import 'http/ImgResult.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/SearchAppBarWidget.dart';
-import 'package:flutter_app1/page/chain_page_search.dart';
+import 'package:flutter_app1/page/search_chain_page.dart';
 import 'package:flutter/services.dart';
 
 void main() {

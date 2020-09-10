@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/http/ImgResult.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/txt_keyword.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app1/widget/FullScreenImagePage.dart';
@@ -242,7 +243,7 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
             Container(
               height: 40,
               margin: EdgeInsets.only(bottom: 5),
-              child: Text(mImgResultList[index].title,
+              child: SelectText(mImgResultList[index].title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 14.0, color: Colors.black)),

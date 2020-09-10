@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_video_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/txt_keyword.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app1/widget/FullScreenImagePage.dart';
@@ -241,7 +242,7 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
           Container(
 
             margin: EdgeInsets.only(bottom: 5),
-            child: Text(mVideoResultList[index].title,
+            child: SelectText(mVideoResultList[index].title,
                 maxLines: 3,
 
                 overflow: TextOverflow.ellipsis,

@@ -19,7 +19,8 @@ class AppSearchPage extends StatefulWidget{
   _AppSearchPageState createState()=>_AppSearchPageState();
 
 }
-class _AppSearchPageState extends State<AppSearchPage> {
+class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveClientMixin{
+  bool isRefreshloading=true;
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -52,9 +53,11 @@ class _AppSearchPageState extends State<AppSearchPage> {
         }
 
         setState(() {
-
+          isRefreshloading = false;
         });
-      }, (error) {});
+      }, (error) {
+        isRefreshloading = false;
+      });
     } else {
       FormData params =
       FormData.fromMap({
@@ -65,11 +68,11 @@ class _AppSearchPageState extends State<AppSearchPage> {
       DioManager.getInstance().get(ServiceUrl.getAppResult, params, (data) {
 
         List<Data> entityList = DataBean.fromJson(data['data']).data;
-        mAppResultList.addAll(entityList);
-        isloadingMore = false;
-        ishasMore = entityList.length >= Constant.PAGE_SIZE;
-        setState(() {
 
+        setState(() {
+          mAppResultList.addAll(entityList);
+          isloadingMore = false;
+          ishasMore = entityList.length >= Constant.PAGE_SIZE;
         });
       }, (error) {
         setState(() {
@@ -162,9 +165,8 @@ class _AppSearchPageState extends State<AppSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoadingContainer(
-        isLoading: isloadingMore,
+        isLoading:isRefreshloading,
         child: RefreshIndicator(
-          // key: _refreshIndicatorKey,
 
           onRefresh: pullToRefresh,
           child: new ListView.builder(

@@ -19,7 +19,8 @@ class StoryEnEnSearchPage extends StatefulWidget{
   _StoryEnEnSearchPageState createState()=>_StoryEnEnSearchPageState();
 
 }
-class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> {
+class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> with AutomaticKeepAliveClientMixin{
+  bool isRefreshloading=true;
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -52,9 +53,11 @@ class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> {
         }
 
         setState(() {
-
+          isRefreshloading = false;
         });
-      }, (error) {});
+      }, (error) {
+        isRefreshloading = false;
+      });
     } else {
       FormData params =
       FormData.fromMap({
@@ -167,7 +170,7 @@ class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> {
 
     return Scaffold(
       body: LoadingContainer(
-        isLoading: isloadingMore,
+        isLoading: isRefreshloading,
         child: RefreshIndicator(
           // key: _refreshIndicatorKey,
 
@@ -175,8 +178,8 @@ class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> {
           child: ListView.builder(
             shrinkWrap: true,
 
-            physics: new NeverScrollableScrollPhysics(),
-            itemCount: mStoryEnResultList.length,
+            //physics: new NeverScrollableScrollPhysics(),
+            itemCount: mStoryEnResultList.length+1,
             itemBuilder: (context, index) {
 
               int imgLength=mStoryEnResultList[index].imageList.length;
@@ -196,6 +199,7 @@ class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> {
               }
 
             },
+            controller: mScrollController,
           ),
         ),
 

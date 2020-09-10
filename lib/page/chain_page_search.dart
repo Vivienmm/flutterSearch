@@ -22,7 +22,8 @@ class ChainSearchPage extends StatefulWidget{
   _ChainSearchPageState createState()=>_ChainSearchPageState();
 
 }
-class _ChainSearchPageState extends State<ChainSearchPage> {
+class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliveClientMixin {
+  bool isRefreshloading=true;
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -55,9 +56,11 @@ class _ChainSearchPageState extends State<ChainSearchPage> {
         }
 
         setState(() {
-
+          isRefreshloading = false;
         });
-      }, (error) {});
+      }, (error) {
+        isRefreshloading = false;
+      });
     } else {
       FormData params =
       FormData.fromMap({
@@ -165,7 +168,7 @@ class _ChainSearchPageState extends State<ChainSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoadingContainer(
-        isLoading: isloadingMore,
+        isLoading:  isRefreshloading ,
         child: RefreshIndicator(
           // key: _refreshIndicatorKey,
 
@@ -177,13 +180,18 @@ class _ChainSearchPageState extends State<ChainSearchPage> {
                 return _buildLoadMore();
               } else {
                 //return getContentItem(context, index, mChainResultList[index]);
-                if (mChainResultList[index].type == 1 ||
-                    mChainResultList[index].type == 2) {
-                  return ChainVideoList(context, mChainResultList[index]);
-                  //return ChainViewAdapter( result:mChainResult.searchResults[index]);
-                } else {
+                if(mCurPage==1){
+                  if (mChainResultList[index].type == 1 ||
+                      mChainResultList[index].type == 2) {
+                    return ChainVideoList(context, mChainResultList[index]);
+                    //return ChainViewAdapter( result:mChainResult.searchResults[index]);
+                  } else {
+                    return ChainNewsList(context, mChainResultList[index]);
+                  }
+                }else{
                   return ChainNewsList(context, mChainResultList[index]);
                 }
+
               }
             },
             controller: mScrollController,

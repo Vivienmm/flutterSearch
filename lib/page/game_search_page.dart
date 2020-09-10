@@ -19,7 +19,8 @@ class GameSearchPage extends StatefulWidget{
 
 }
 
-class _GameSearchPageState extends State<GameSearchPage>{
+class _GameSearchPageState extends State<GameSearchPage>with AutomaticKeepAliveClientMixin{
+  bool isRefreshloading=true;
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -51,9 +52,13 @@ class _GameSearchPageState extends State<GameSearchPage>{
         }
 
         setState(() {
+          isRefreshloading = false;
 
         });
-      }, (error) {});
+      }, (error) {
+        isRefreshloading = false;
+
+      });
     } else {
       FormData params =
       FormData.fromMap({
@@ -162,7 +167,7 @@ class _GameSearchPageState extends State<GameSearchPage>{
 
     return Scaffold(
         body: LoadingContainer(
-          isLoading: isloadingMore,
+          isLoading: isRefreshloading,
           child: RefreshIndicator(
             // key: _refreshIndicatorKey,
 
@@ -170,11 +175,14 @@ class _GameSearchPageState extends State<GameSearchPage>{
 
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: mGameResultList.length,
+                  itemCount: mGameResultList.length+1,
                   itemBuilder: (context, index) {
-                    return getContentItem(context, mGameResultList[index]);
-                  }
-
+                  if (index == mGameResultList.length) {
+                  return _buildLoadMore();
+                  } else {
+                    return getContentItem(context, mGameResultList[index]);}
+                  },
+                  controller: mScrollController,
                 ),
               ),
 

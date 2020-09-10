@@ -99,7 +99,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
       var response = await dio.get("http://appapitest.chinaso.com/general/v1/search/image?q=%E6%95%85%E4%BA%8B", options:Options(headers: {"user-agent" : "Custom-UA"}));
       final jsonResponse = json.decode(response.toString());
       ImgResult student = ImgResult.fromJson(jsonResponse);
-      print("hehe"+student.data.arrRes[1].smallimage.toString());
       for(int i=0;i<student.data.arrRes.length;i++){
         imgList.add(student.data.arrRes[i].smallimage.toString());
       }
@@ -142,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     mTabList.add(new SearchCategory(id: 5, cname: "APP"));
     mTabList.add(new SearchCategory(id: 5, cname: "区块链"));
     mTabList.add(new SearchCategory(id: 5, cname: "游戏"));
-    mTabList.add(new SearchCategory(id: 5, cname: "CHina Story"));
+    mTabList.add(new SearchCategory(id: 5, cname: "China Story"));
 
     mTabController = TabController(length: mTabList.length, vsync: this);
    // dioDemo();

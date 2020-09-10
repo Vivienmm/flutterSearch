@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/txt_keyword.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_app1/constant/constant.dart';
 class ItemImgTitle extends StatefulWidget{
@@ -61,7 +62,7 @@ class _ItemImgTitleState extends State<ItemImgTitle> {
               children: <Widget>[
                 Container(
                   height: 50,
-                  child: Text(widget.title,
+                  child: SelectText(widget.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 16.0, color: Colors.black,fontWeight:FontWeight.w500)),

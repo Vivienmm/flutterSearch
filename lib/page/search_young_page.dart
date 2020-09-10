@@ -167,12 +167,13 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
     return Container(
       padding: EdgeInsets.only(top: 15),
 
-      child:new CustomScrollView(
+      child: RefreshIndicator(
+        onRefresh: pullToRefresh,
+        child:new CustomScrollView(
           controller: mScrollController,
           slivers: <Widget>[
             SliverToBoxAdapter(
-              child: RefreshIndicator(
-                onRefresh: pullToRefresh,
+
 
                 child: StaggeredGridView.countBuilder(
                   shrinkWrap: true,
@@ -201,12 +202,12 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
                 ),
               ),
 
-            ),
+
             new SliverToBoxAdapter(
               child: _buildLoadMore(),
             ),
           ]),
-
+      ),
     );
 
   }

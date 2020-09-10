@@ -166,13 +166,12 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
     return Container(
       padding: EdgeInsets.only(top: 15),
 
+      child: RefreshIndicator(
+        onRefresh: pullToRefresh,
         child:new CustomScrollView(
             controller: mScrollController,
           slivers: <Widget>[
             SliverToBoxAdapter(
-              child: RefreshIndicator(
-                onRefresh: pullToRefresh,
-
                 child: StaggeredGridView.countBuilder(
                     shrinkWrap: true,
 
@@ -189,12 +188,12 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
               ),
             ),
 
-            ),
+
             new SliverToBoxAdapter(
               child: _buildLoadMore(),
             ),
             ]),
-
+      ),
         );
 
   }

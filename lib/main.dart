@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app1/page/AppSearchPage.dart';
-import 'package:flutter_app1/page/ImgSearchPage.dart';
-import 'package:flutter_app1/page/NewsSearchPage.dart';
-import 'package:flutter_app1/page/VideoSearchPage.dart';
-import 'package:flutter_app1/page/YoungSearchPage.dart';
+import 'package:flutter_app1/page/search_img_page.dart';
+import 'package:flutter_app1/page/search_news_page.dart';
+import 'package:flutter_app1/page/search_video_page.dart';
+import 'package:flutter_app1/page/search_young_page.dart';
 import 'package:flutter_app1/page/StorySearchPage.dart';
 import 'package:flutter_app1/page/game_search_page.dart';
 import 'package:flutter_app1/page/storyen_search_page.dart';

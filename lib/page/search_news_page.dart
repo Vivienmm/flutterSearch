@@ -44,12 +44,11 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
 
         List<Data> entityList = DataBean.fromJson(data['data']).data;
         mNewsResultList=[];
-        for(int i=0;i<entityList.length;i++){
-          mNewsResultList.add(entityList[i]);
-        }
 
         setState(() {
-
+          for(int i=0;i<entityList.length;i++){
+            mNewsResultList.add(entityList[i]);
+          }
         });
       }, (error) {});
     } else {
@@ -165,12 +164,13 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
     return Container(
       padding: EdgeInsets.only(top: 15),
 
-      child:new CustomScrollView(
+      child: RefreshIndicator(
+        onRefresh: pullToRefresh,
+        child:new CustomScrollView(
           controller: mScrollController,
           slivers: <Widget>[
             SliverToBoxAdapter(
-              child: RefreshIndicator(
-                onRefresh: pullToRefresh,
+
 
                 child: StaggeredGridView.countBuilder(
                   shrinkWrap: true,
@@ -199,12 +199,12 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
                 ),
               ),
 
-            ),
             new SliverToBoxAdapter(
               child: _buildLoadMore(),
             ),
           ]),
 
+      ),
     );
 
   }

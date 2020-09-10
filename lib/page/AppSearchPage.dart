@@ -167,7 +167,6 @@ class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveCl
       body: LoadingContainer(
         isLoading:isRefreshloading,
         child: RefreshIndicator(
-
           onRefresh: pullToRefresh,
           child: new ListView.builder(
             itemCount: mAppResultList.length + 1,

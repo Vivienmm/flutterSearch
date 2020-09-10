@@ -165,12 +165,12 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
     return Container(
       padding: EdgeInsets.only(top: 15),
 
-      child:new CustomScrollView(
+      child: RefreshIndicator(
+        onRefresh: pullToRefresh,
+        child:new CustomScrollView(
           controller: mScrollController,
           slivers: <Widget>[
             SliverToBoxAdapter(
-              child: RefreshIndicator(
-                onRefresh: pullToRefresh,
 
                 child: StaggeredGridView.countBuilder(
                   shrinkWrap: true,
@@ -188,12 +188,12 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
                 ),
               ),
 
-            ),
+
             new SliverToBoxAdapter(
               child: _buildLoadMore(),
             ),
           ]),
-
+      ),
     );
 
   }

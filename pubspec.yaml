@@ -26,7 +26,7 @@ dependencies:
   dio: 3.0.9
   flutter_staggered_grid_view:
   cached_network_image: ^2.2.0+1
-
+  flutter_webview_plugin: ^0.3.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
@@ -119,6 +119,7 @@ flutter:
     - assets/images/chain_icon.png
     - assets/images/game_icon.png
     - assets/images/search_bar_icon.png
+    - assets/ #根目录也是可以批量指定的
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

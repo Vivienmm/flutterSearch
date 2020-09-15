@@ -27,26 +27,24 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  final ThemeData kIOSTheme = ThemeData( brightness: Brightness.light,//亮色主题
+       accentColor: Colors.white,//(按钮)Widget前景色为白色
+      primaryColor: Colors.blue,//主题色为蓝色
+      iconTheme:IconThemeData(color: Colors.grey),//icon主题为灰色
+      textTheme: TextTheme(body1: TextStyle(color: Colors.black))//文本主题为黑色
+       );
+  final ThemeData kAndroidTheme = ThemeData( brightness: Brightness.light,//深色主题
+       accentColor: LcfarmColor.themeColor,//(按钮)Widget前景色为黑色
+       primaryColor: Colors.cyan,//主题色Wie青色
+      iconTheme:IconThemeData(color: Colors.blue),//icon主题色为蓝色
+      textTheme: TextTheme(body1: TextStyle(color: LcfarmColor.colorTitle))//文本主题色为红色
+      );
+  ThemeData defaultTargetPlatform;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: defaultTargetPlatform == TargetPlatform.iOS ? kIOSTheme : kAndroidTheme,//根据平台选择不同主题
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

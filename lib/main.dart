@@ -13,6 +13,7 @@ import 'package:flutter_app1/widget/CSSearchBar.dart';
 import 'package:flutter_app1/widget/CSTabIndicator.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'native/sample_view.dart';
 import 'widget/FullScreenImagePage.dart';
 import 'dart:convert';
 import 'http/ImgResult.dart';
@@ -193,10 +194,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
         //color: MyColorRes.bgTagColor,
         child: Column(
           children: <Widget>[
-            Container(
-                child: Center(
 
-                )),
             Container(
               alignment: Alignment.bottomLeft,
 
@@ -240,6 +238,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                 controller: mTabController,
               ),
             ),
+            Container(
+                child: Center(
+                  child:Container(
+                    width: double.infinity, height:50,
+                    child:SampleView() ,
+                  ),
+                )),
           ],
         ),
       ),

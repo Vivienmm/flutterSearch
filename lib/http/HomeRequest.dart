@@ -1,4 +1,4 @@
-import 'CommonHttpRequest.dart';
+import 'common_http_request.dart';
 class HomeRequest {
   static requestMovieList(int start) async {
     // 1.构建URL

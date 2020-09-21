@@ -2,14 +2,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_block_entity.dart';
 import 'package:flutter_app1/public.dart';
-import 'package:flutter_app1/util/ColorsUtil.dart';
-import 'package:flutter_app1/widget/ItemImgTitle.dart';
-import 'package:flutter_app1/widget/ItemNoImg.dart';
-import 'package:flutter_app1/widget/ItemImgDes.dart';
+import 'package:flutter_app1/util/color_utils.dart';
+import 'package:flutter_app1/widget/chain/chain_view_adapter.dart';
+import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
+import 'package:flutter_app1/widget/item_no_img.dart';
+import 'package:flutter_app1/widget/commonitem/item_img_des.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app1/widget/chain_view_no_img.dart';
+import 'package:flutter_app1/widget/chain/chain_view_no_img.dart';
 import 'package:flutter_app1/widget/loading_container.dart';
-import 'package:flutter_app1/widget/chain_view_adapter.dart';
+
 
 
 class ChainSearchPage extends StatefulWidget{

@@ -1,12 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app1/http/ImgResult.dart';
+import 'package:flutter_app1/model/search_img_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/txt_keyword.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_app1/widget/FullScreenImagePage.dart';
+import 'package:flutter_app1/widget/full_screen_page.dart';
 class ImgSearchPage extends StatefulWidget{
   String qury="北京";
   ImgSearchPage(String key){
@@ -229,12 +229,14 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
           },
           child: new Hero(
             tag: imgPath,
-            child: CachedNetworkImage(
-              imageUrl: imgPath,
-
+            child: FadeInImage(
+              height: 120,
               fit: BoxFit.fitWidth,
-              /*    placeholder: (context, url) =>
-                      Image.asset('assets/wallfy.png'),*/
+              placeholder:
+              AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+              image: NetworkImage(
+                imgPath,
+              ),
             ),
           ),
         ),

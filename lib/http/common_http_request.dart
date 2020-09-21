@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-//import 'ImgResult.dart';
+//import 'search_img_entity.dart';
 import 'dart:convert';
 class CommonHttpRequest {
   static final Dio dio = Dio();

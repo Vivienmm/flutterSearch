@@ -1,7 +1,7 @@
 import 'package:flutter_app1/model/search_block_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/model/search_block_entity.dart';
-import 'package:flutter_app1/widget/chain_height_with_certi.dart';
+import 'package:flutter_app1/widget/chain/chain_height_with_certi.dart';
 import 'chain_view_source.dart';
 import 'package:flutter_app1/public.dart';
 class ChainViewAdapter extends StatefulWidget{

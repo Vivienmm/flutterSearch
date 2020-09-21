@@ -1,13 +1,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_video_entity.dart';
-import 'package:flutter_app1/page/web_view_page.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/txt_keyword.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_app1/widget/FullScreenImagePage.dart';
+import 'package:flutter_app1/widget/full_screen_page.dart';
+
 class VideoSearchPage extends StatefulWidget{
   String qury="北京";
   VideoSearchPage(String key){
@@ -65,11 +65,11 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
 
 
         List<ArrRes> entityList = Data.fromJson(data['data']).arrRes;
-        mVideoResultList.addAll(entityList);
-        isloadingMore = false;
-        ishasMore = entityList.length >= Constant.PAGE_SIZE;
-        setState(() {
 
+        setState(() {
+          mVideoResultList.addAll(entityList);
+          isloadingMore = false;
+          ishasMore = entityList.length >= Constant.PAGE_SIZE;
         });
       }, (error) {
         setState(() {
@@ -202,6 +202,8 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
 
   Widget  itemWidget(int index){
     String imgPath = mVideoResultList[index].image_src;
+    String jumpUrl=mVideoResultList[index].url;
+    print("su--"+jumpUrl);
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -230,22 +232,26 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
                 tag: imgPath,
                 child:GestureDetector(
                   onTap:(){
-                    Navigator.of(context).push(
-
-                        new MaterialPageRoute(builder: (context) {
-
-                          return new WebView(url:mVideoResultList[index].url,title: "新闻详情",);//url为要跳转的地址,title为需要传递的参数
-                        },
-                        ));
+//                    Navigator.of(context).push(
+//
+//                        new MaterialPageRoute(builder: (context) {
+//
+//
+//                          return new WebViewShow(url:mVideoResultList[index].url,title: "新闻详情",);//url为要跳转的地址,title为需要传递的参数
+//                        },
+//                        ));
                   },
-                  child: CachedNetworkImage(
+                  child: FadeInImage(
                     height: 120,
-                    imageUrl: imgPath,
-
                     fit: BoxFit.fitWidth,
-                    /*    placeholder: (context, url) =>
-                      Image.asset('assets/wallfy.png'),*/
+                    placeholder:
+                    AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                    image: NetworkImage(
+                      imgPath,
+                    ),
                   ),
+
+
                 )
 
               ),

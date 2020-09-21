@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_games_entity.dart';
 import 'package:flutter_app1/public.dart';
-import 'package:flutter_app1/widget/ItemImgTitle.dart';
-import 'package:flutter_app1/widget/ItemNoImg.dart';
+import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
+import 'package:flutter_app1/widget/item_no_img.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/game/game_intro.dart';
 import 'package:flutter_app1/widget/game/game_publish.dart';

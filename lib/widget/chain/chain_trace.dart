@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/constant/constant.dart';
-import 'package:flutter_app1/util/LcfarmColor.dart';
-import 'package:flutter_app1/widget/chain_height_without_certi.dart';
-import 'package:flutter_app1/widget/chain_view_certi.dart';
+import 'package:flutter_app1/util/color_factory.dart';
+import 'package:flutter_app1/widget/chain/chain_height_without_certi.dart';
+import 'package:flutter_app1/widget/chain/chain_view_certi.dart';
 
 class ChainTrace extends StatefulWidget{
   List<String> traces;

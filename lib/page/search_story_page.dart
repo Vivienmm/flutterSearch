@@ -1,11 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app1/http/StoryResult.dart';
-import 'package:flutter_app1/util/ColorsUtil.dart';
-import 'package:flutter_app1/widget/ScrollTagView.dart';
-import 'package:flutter_app1/widget/ItemImgTitle.dart';
-import 'package:flutter_app1/widget/ItemNoImg.dart';
-import 'package:flutter_app1/widget/ItemImgDes.dart';
+import 'package:flutter_app1/model/search_story_entity.dart';
+import 'package:flutter_app1/util/color_utils.dart';
+import 'package:flutter_app1/widget/scroll_tag.dart';
+import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
+import 'package:flutter_app1/widget/item_no_img.dart';
+import 'package:flutter_app1/widget/commonitem/item_img_des.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/loading_container.dart';

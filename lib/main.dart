@@ -8,15 +8,15 @@ import 'package:flutter_app1/page/search_young_page.dart';
 import 'package:flutter_app1/page/search_story_page.dart';
 import 'package:flutter_app1/page/search_game_page.dart';
 import 'package:flutter_app1/page/search_storyen_page.dart';
-import 'package:flutter_app1/util/LcfarmColor.dart';
-import 'package:flutter_app1/widget/CSSearchBar.dart';
-import 'package:flutter_app1/widget/CSTabIndicator.dart';
+import 'package:flutter_app1/util/color_factory.dart';
+import 'package:flutter_app1/widget/chinaso_search_bar.dart';
+import 'package:flutter_app1/widget/chinaso_search_indicator.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'native/sample_view.dart';
-import 'widget/FullScreenImagePage.dart';
+import 'widget/full_screen_page.dart';
 import 'dart:convert';
-import 'http/ImgResult.dart';
+import 'model/search_img_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/SearchAppBarWidget.dart';
 import 'package:flutter_app1/page/search_chain_page.dart';
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
 
   FocusNode _focusNode;
   TextEditingController _controller;
-  String queryWord="故事";
+  String queryWord="习近平";
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has

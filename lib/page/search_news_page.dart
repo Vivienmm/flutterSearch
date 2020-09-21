@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_news_entity.dart';
 import 'package:flutter_app1/public.dart';
-import 'package:flutter_app1/widget/ItemImgTitle.dart';
-import 'package:flutter_app1/widget/ItemNoImg.dart';
+import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
+import 'package:flutter_app1/widget/item_no_img.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
+import 'package:flutter_html/flutter_html.dart';
+//import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 class NewsSearchPage extends StatefulWidget{
-  String qury="北京";
+  String qury="习近平";
   NewsSearchPage(String keyWord){
     this.qury=keyWord;
   }
@@ -25,6 +26,8 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
   @override
   bool get wantKeepAlive => true; //必须重写
   List<Data> mNewsResultList = [];
+  List<Lunabox> mHtmlResultList = [];
+  String jsAll="";
 
 
   NewsSearchPageState() {}
@@ -38,30 +41,49 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
       FormData params =
       FormData.fromMap({
         "q":widget.qury,
-        'start_index': "$mCurPage",
-        "order": "time"});
+        'start_index': "",
+        "order": ""});
       DioManager.getInstance().get(ServiceUrl.getNewsResult, params, (data) {
 
         List<Data> entityList = DataBean.fromJson(data['data']).data;
+
+        if(null!=DataBean.fromJson(data['data']).lunabox){
+          List<Lunabox> htmls=DataBean.fromJson(data['data']).lunabox;
+          print("htmls---"+htmls[1].hTML);
+          jsAll=
+              "<div v-append=\""+htmls[1].cSS+"\"></div> <div v-append=\""+htmls[1].hTML+"\"></div> <div v-append=\""+htmls[1].jS+"\"></div>";
+          mHtmlResultList.addAll(htmls);
+        }
+
+
         mNewsResultList=[];
 
         setState(() {
           for(int i=0;i<entityList.length;i++){
             mNewsResultList.add(entityList[i]);
           }
+
         });
       }, (error) {});
     } else {
       FormData params =
       FormData.fromMap({
         "q":widget.qury,
-        'start_index': mCurPage,
-        "order": "time"});
+        'start_index': "",
+        "order": ""});
 
       DioManager.getInstance().get(ServiceUrl.getNewsResult, params, (data) {
 
         List<Data> entityList = DataBean.fromJson(data['data']).data;
+        if(null!=DataBean.fromJson(data['data']).lunabox){
+          List<Lunabox> htmls=DataBean.fromJson(data['data']).lunabox;
+          print("htmls---"+htmls[1].hTML);
+          jsAll=
+              "<div v-append=\""+htmls[1].cSS+"\"></div> <div v-append=\""+htmls[1].hTML+"\"></div> <div v-append=\""+htmls[1].jS+"\"></div>";
+          mHtmlResultList.addAll(htmls);
+        }
         mNewsResultList.addAll(entityList);
+
         isloadingMore = false;
         ishasMore = entityList.length >= Constant.PAGE_SIZE;
         setState(() {
@@ -140,7 +162,8 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
               isloadingMore = true;
               mCurPage += 1;
             });
-            print("susus"+"滑动到底部");
+
+            ("susus"+"滑动到底部");
             Future.delayed(Duration(seconds: 3), () {
 
               getNewsResultList(false);
@@ -169,6 +192,7 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
         child:new CustomScrollView(
           controller: mScrollController,
           slivers: <Widget>[
+
             SliverToBoxAdapter(
 
 
@@ -181,17 +205,32 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
                   physics: new NeverScrollableScrollPhysics(),
                   itemCount: mNewsResultList.length,
                   itemBuilder: (context, index) {
-                    if(mNewsResultList[index].imageList.length>0){
 
-                      return ItemImgTitle(
-                          title:mNewsResultList[index].title,
-                          source:mNewsResultList[index].source,
-                          imgUrl: mNewsResultList[index].imageList[0]);
+                    if(index==0&&jsAll.length>2){
+//                      return Container(
+//                        height: 200,
+//                        child: WebViewPlus(
+//                          javascriptMode: JavascriptMode.unrestricted,
+//                          onWebViewCreated: (controller) {
+//                            controller.loadString(jsAll);
+//                          },
+//                        ),
+//                      );
+                      return Html(data: jsAll);
                     }else{
-                      return ItemNoImg(
-                          title:mNewsResultList[index].title,
-                          source:mNewsResultList[index].source);
+                      if(mNewsResultList[index].imageList.length>0){
+
+                        return ItemImgTitle(
+                            title:mNewsResultList[index].title,
+                            source:mNewsResultList[index].source,
+                            imgUrl: mNewsResultList[index].imageList[0]);
+                      }else{
+                        return ItemNoImg(
+                            title:mNewsResultList[index].title,
+                            source:mNewsResultList[index].source);
+                      }
                     }
+
 
                   },
                   staggeredTileBuilder: (index) =>

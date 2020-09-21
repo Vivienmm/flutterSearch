@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_app1/util/ColorsUtil.dart';
+import 'package:flutter_app1/util/color_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 点击回调 index

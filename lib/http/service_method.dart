@@ -52,7 +52,6 @@ class DioManager {
     try {
       if (method == 'get') {
         if (params != null) {
-          print("susus"+ Map.fromEntries(params.fields).toString());
           response = await dio.get(url,
               queryParameters: Map.fromEntries(params.fields));
         } else {

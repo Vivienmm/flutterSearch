@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_app_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/util/color_utils.dart';
+import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
 import 'package:flutter_app1/widget/item_no_img.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_des.dart';
@@ -172,7 +173,10 @@ class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveCl
             itemCount: mAppResultList.length + 1,
             itemBuilder: (context, index) {
               if (index == mAppResultList.length) {
-                return _buildLoadMore();
+                return  Container(
+                  height: 40,
+                  child:Footer(isloadingMore: isloadingMore, ishasMore: ishasMore),
+                );
               } else {
                 return getContentItem(context, index, mAppResultList[index]);
               }

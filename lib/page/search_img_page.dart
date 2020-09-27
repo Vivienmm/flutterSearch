@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_img_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/txt_keyword.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -61,8 +62,6 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
         "order": "time"});
 
       DioManager.getInstance().get(ServiceUrl.getImgResult, params, (data) {
-
-
         List<ArrRes> entityList = Data.fromJson(data['data']).arrRes;
         mImgResultList.addAll(entityList);
         isloadingMore = false;
@@ -78,42 +77,6 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
       });
     }
   }
-  Widget _buildLoadMore() {
-    return isloadingMore
-        ? Container(
-      height: 20,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5),
-          child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: SizedBox(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                      height: 12.0,
-                      width: 12.0,
-                    ),
-                  ),
-                  Text("加载中..."),
-                ],
-              )),
-        ))
-        : new Container(
-      child: ishasMore
-          ? new Container()
-          : Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 5, bottom: 5),
-              child: Text(
-                "没有更多数据",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ))),
-    );
-  }
 
 
   Future pullToRefresh() async {
@@ -125,7 +88,6 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
     super.initState();
     //监听登录事件
  EventBusUtil.getInstance().on<PageEvent>().listen((data) {
-   print("eventbus-get"+data.test);
    widget.qury=data.test;
    setState(() {
      getImgResultList(true);
@@ -143,7 +105,6 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
               isloadingMore = true;
               mCurPage += 1;
             });
-            print("susus"+"滑动到底部");
             Future.delayed(Duration(seconds: 3), () {
 
               getImgResultList(false);
@@ -160,9 +121,6 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
   }
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double mGridItemHeight = 200;
-    final double mGridItemWidth = size.width / 2;
 
     return Container(
       padding: EdgeInsets.only(top: 15),
@@ -173,9 +131,9 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
             controller: mScrollController,
           slivers: <Widget>[
             SliverToBoxAdapter(
+              
                 child: StaggeredGridView.countBuilder(
                     shrinkWrap: true,
-
                     crossAxisCount: 4,
                     crossAxisSpacing: 4,
                     mainAxisSpacing: 10,
@@ -191,7 +149,10 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
 
 
             new SliverToBoxAdapter(
-              child: _buildLoadMore(),
+              child: Container(
+                height: 40,
+                child:Footer(isloadingMore: isloadingMore, ishasMore: ishasMore),
+              ),
             ),
             ]),
       ),
@@ -201,9 +162,6 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
 
   Widget  itemWidget(int index){
     String imgPath = mImgResultList[index].url;
-
-
-
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -258,82 +216,5 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
   }
 
 
-  Widget getContentItem(BuildContext context, ArrRes mModel) {
-    return Container(
-      //  height: 200,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            height: 100,
-            width: MediaQuery.of(context).size.width,
-            child: ClipRRect(
-              //  borderRadius: BorderRadius.circular(5),
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder:
-                AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                image: NetworkImage(
-                  mModel.url,
-                ),
-              ),
-
-            ),
-          ),
-          Positioned(
-              child: new Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: Container(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-
-                    children: <Widget>[
-//                      Container(
-//                        margin: EdgeInsets.only(left: 5, right: 3),
-//                        child: Image.asset(
-//                          Constant.ASSETS_IMG + 'video_play.png',
-//                          width: 15.0,
-//                          height: 15.0,
-//                        ),
-//                      ),
-
-                      Spacer(),
-                      Container(
-                        margin: EdgeInsets.only(right: 5),
-                        child: Text(
-                            mModel.time,
-                            style: TextStyle(fontSize: 14.0, color: Colors.white)),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
-          Container(
-            height: 40,
-            margin: EdgeInsets.only(bottom: 5),
-            child: Text(mModel.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.black)),
-            //  margin: EdgeInsets.only(left: 60),
-          )
-
-
-
-
-
-
-        ],
-
-
-      ),
-
-
-    );
-  }
 }
+

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_block_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/util/color_utils.dart';
+import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/chain/chain_view_adapter.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
 import 'package:flutter_app1/widget/item_no_img.dart';
@@ -178,7 +179,10 @@ class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliv
             itemCount: mChainResultList.length + 1,
             itemBuilder: (context, index) {
               if (index == mChainResultList.length) {
-                return _buildLoadMore();
+                return  Container(
+                  height: 40,
+                  child:Footer(isloadingMore: isloadingMore, ishasMore: ishasMore),
+                );
               } else {
                 //return getContentItem(context, index, mChainResultList[index]);
                 if(mCurPage==1){
@@ -215,7 +219,6 @@ class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliv
             height:30,
 
           ),
-
 
           ListView.separated(
             shrinkWrap: true,

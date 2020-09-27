@@ -4,6 +4,7 @@ import 'package:flutter_app1/model/search_video_entity.dart';
 import 'package:flutter_app1/page/web_view_page.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/txt_keyword.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -193,7 +194,10 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
 
 
             new SliverToBoxAdapter(
-              child: _buildLoadMore(),
+              child: Container(
+                height: 40,
+                child:Footer(isloadingMore: isloadingMore, ishasMore: ishasMore),
+              ),
             ),
           ]),
       ),

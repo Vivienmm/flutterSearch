@@ -28,7 +28,7 @@ class SelectText extends StatelessWidget {
     } else {
       list.add(text);
     }
-    print("wangyana========" + list.toString() + "nishisha?=====" + text);
+
     if (list != null && list.length > 2) {
       return RichText(
         text: TextSpan(

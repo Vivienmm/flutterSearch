@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_en_story_entity.dart';
 import 'package:flutter_app1/util/color_utils.dart';
+import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/scroll_tag.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
 import 'package:flutter_app1/widget/item_no_img.dart';
@@ -181,23 +182,30 @@ class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> with Automati
             //physics: new NeverScrollableScrollPhysics(),
             itemCount: mStoryEnResultList.length+1,
             itemBuilder: (context, index) {
+              if (index == mStoryEnResultList.length) {
+                return Container(
+                  height: 40,
+                  child: Footer(
+                      isloadingMore: isloadingMore, ishasMore: ishasMore),
+                );
+              } else {
+                int imgLength = mStoryEnResultList[index].imageList.length;
 
-              int imgLength=mStoryEnResultList[index].imageList.length;
 
-
-              if(imgLength==0){
-                return getContentItemTxt(context, mStoryEnResultList[index]);
-              }else if(0<imgLength&&imgLength<3){
-                if(mStoryEnResultList[index].snippet.length>0){
-                  return getContentItemImgDes(context, mStoryEnResultList[index]);
-                }else{
-                  return getContentItemImgNoDes(context, mStoryEnResultList[index]);
+                if (imgLength == 0) {
+                  return getContentItemTxt(context, mStoryEnResultList[index]);
+                } else if (0 < imgLength && imgLength < 3) {
+                  if (mStoryEnResultList[index].snippet.length > 0) {
+                    return getContentItemImgDes(
+                        context, mStoryEnResultList[index]);
+                  } else {
+                    return getContentItemImgNoDes(
+                        context, mStoryEnResultList[index]);
+                  }
+                } else {
+                  return getContentItemImgs(context, mStoryEnResultList[index]);
                 }
-
-              }else{
-                return getContentItemImgs(context, mStoryEnResultList[index]);
               }
-
             },
             controller: mScrollController,
           ),

@@ -4,7 +4,7 @@ import 'package:flutter_app1/model/search_block_entity.dart';
 import 'package:flutter_app1/widget/chain/chain_height_with_certi.dart';
 
 import 'package:flutter_app1/public.dart';
-import 'package:flutter_app1/widget/item_no_img.dart';
+import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
 
 import 'chain_trace.dart';
 import 'chain_view_source.dart';

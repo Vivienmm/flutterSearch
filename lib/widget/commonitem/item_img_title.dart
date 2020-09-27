@@ -62,13 +62,14 @@ class _ItemImgTitleState extends State<ItemImgTitle> {
               children: <Widget>[
                 Container(
                   height: 50,
+                  padding: EdgeInsets.only(left: 15),
                   child: SelectText(widget.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 16.0, color: Colors.black,fontWeight:FontWeight.w500)),
                 ),
                 Container(
-
+                  padding: EdgeInsets.only(left: 15),
                   child: Text(widget.source,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

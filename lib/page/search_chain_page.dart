@@ -6,7 +6,7 @@ import 'package:flutter_app1/util/color_utils.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/chain/chain_view_adapter.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
-import 'package:flutter_app1/widget/item_no_img.dart';
+import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_des.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/chain/chain_view_no_img.dart';

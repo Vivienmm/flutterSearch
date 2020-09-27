@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_news_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
+import 'package:flutter_app1/widget/commonitem/item_img_des.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
-import 'package:flutter_app1/widget/item_no_img.dart';
+import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -188,10 +189,19 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
                     }else{
                       if(mNewsResultList[index].imageList.length>0){
 
-                        return ItemImgTitle(
-                            title:mNewsResultList[index].title,
-                            source:mNewsResultList[index].source,
-                            imgUrl: mNewsResultList[index].imageList[0]);
+                        if(mNewsResultList[index].snippet.length>0){
+                          return ItemImgDes(
+                              title:mNewsResultList[index].title,
+                              source:mNewsResultList[index].source,
+                              imgUrl: mNewsResultList[index].imageList[0],
+                          snippet: mNewsResultList[index].snippet,);
+                        }else{
+                          return ItemImgTitle(
+                              title:mNewsResultList[index].title,
+                              source:mNewsResultList[index].source,
+                              imgUrl: mNewsResultList[index].imageList[0]);
+                        }
+
                       }else{
                         return ItemNoImg(
                             title:mNewsResultList[index].title,

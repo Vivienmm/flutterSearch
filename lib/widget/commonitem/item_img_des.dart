@@ -40,7 +40,7 @@ class _ItemImgDesState extends State<ItemImgDes> {
         mainAxisSize :MainAxisSize.max,
         children: <Widget>[
           Container(
-          height: 50,
+        padding: EdgeInsets.only(bottom: 15),
           child: SelectText(widget.title,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -78,19 +78,12 @@ class _ItemImgDesState extends State<ItemImgDes> {
               children: <Widget>[
                 Container(
                 height: 50,
+                  padding: EdgeInsets.only(left: 15),
                   child: SelectText(widget.snippet,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 14.0, color: Colors.black)),
                 ),
-                Container(
-
-                  child: Text(widget.source,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-    //  margin: EdgeInsets.only(left: 60),
-                  )
 
                 ],
 
@@ -101,11 +94,11 @@ class _ItemImgDesState extends State<ItemImgDes> {
 
 
           ),Container(
-
+            padding: EdgeInsets.only(top: 15,bottom: 20),
             child: Text(widget.source,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+            style: TextStyle(fontSize: 11.0, color: Colors.grey)),
             //  margin: EdgeInsets.only(left: 60),
             ),
 

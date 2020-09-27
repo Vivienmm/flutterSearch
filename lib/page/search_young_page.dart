@@ -4,7 +4,7 @@ import 'package:flutter_app1/model/search_young_entity.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
-import 'package:flutter_app1/widget/item_no_img.dart';
+import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';

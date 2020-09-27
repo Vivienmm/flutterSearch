@@ -29,6 +29,7 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
   List<Data> mNewsResultList = [];
   List<Lunabox> mHtmlResultList = [];
   String jsAll="";
+  bool hasLuna=false;
 
 
   NewsSearchPageState() {}
@@ -48,19 +49,28 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
 
         List<Data> entityList = DataBean.fromJson(data['data']).data;
 
+
         if(null!=DataBean.fromJson(data['data']).lunabox){
+
           List<Lunabox> htmls=DataBean.fromJson(data['data']).lunabox;
-          print("htmls---"+htmls[1].hTML);
-          jsAll=
-              "<div v-append=\""+htmls[1].cSS+"\"></div> <div v-append=\""+htmls[1].hTML+"\"></div> <div v-append=\""+htmls[1].jS+"\"></div>";
-          mHtmlResultList.addAll(htmls);
+
+          if(null!=htmls&&htmls.length>1){
+            hasLuna=true;
+            jsAll=
+                "<div v-append=\""+htmls[1].cSS+"\"></div> <div v-append=\""+htmls[1].hTML+"\"></div> <div v-append=\""+htmls[1].jS+"\"></div>";
+            mHtmlResultList.addAll(htmls);
+          }
+
+        }else{
+          hasLuna=false;
         }
 
         mNewsResultList=[];
+        for(int i=0;i<entityList.length;i++){
+          mNewsResultList.add(entityList[i]);
+        }
         setState(() {
-          for(int i=0;i<entityList.length;i++){
-            mNewsResultList.add(entityList[i]);
-          }
+
 
         });
       }, (error) {});
@@ -76,13 +86,17 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
         List<Data> entityList = DataBean.fromJson(data['data']).data;
         if(null!=DataBean.fromJson(data['data']).lunabox){
           List<Lunabox> htmls=DataBean.fromJson(data['data']).lunabox;
-          print("htmls---"+htmls[1].hTML);
-          jsAll=
-              "<div v-append=\""+htmls[1].cSS+"\"></div> <div v-append=\""+htmls[1].hTML+"\"></div> <div v-append=\""+htmls[1].jS+"\"></div>";
-          mHtmlResultList.addAll(htmls);
+          if(null!=htmls&&htmls.length>1){
+            hasLuna=true;
+            jsAll=
+                "<div v-append=\""+htmls[1].cSS+"\"></div> <div v-append=\""+htmls[1].hTML+"\"></div> <div v-append=\""+htmls[1].jS+"\"></div>";
+            mHtmlResultList.addAll(htmls);
+          }
+
+        }else{
+          hasLuna=false;
         }
         mNewsResultList.addAll(entityList);
-
         isloadingMore = false;
         ishasMore = entityList.length >= Constant.PAGE_SIZE;
         setState(() {
@@ -96,43 +110,6 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
       });
     }
   }
-  Widget _buildLoadMore() {
-    return isloadingMore
-        ? Container(
-        height: 20,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5),
-          child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: SizedBox(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                      height: 12.0,
-                      width: 12.0,
-                    ),
-                  ),
-                  Text("加载中..."),
-                ],
-              )),
-        ))
-        : new Container(
-      child: ishasMore
-          ? new Container()
-          : Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 5, bottom: 5),
-              child: Text(
-                "没有更多数据",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ))),
-    );
-  }
-
 
   Future pullToRefresh() async {
     getNewsResultList(true);
@@ -162,7 +139,6 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
               mCurPage += 1;
             });
 
-            ("susus"+"滑动到底部");
             Future.delayed(Duration(seconds: 3), () {
 
               getNewsResultList(false);
@@ -205,17 +181,10 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
                   itemCount: mNewsResultList.length,
                   itemBuilder: (context, index) {
 
-                    if(index==0&&jsAll.length>2){
-//                      return Container(
-//                        height: 200,
-//                        child: WebViewPlus(
-//                          javascriptMode: JavascriptMode.unrestricted,
-//                          onWebViewCreated: (controller) {
-//                            controller.loadString(jsAll);
-//                          },
-//                        ),
-//                      );
+                    if(index==0&&hasLuna){
+                      hasLuna=false;
                       return Html(data: jsAll);
+
                     }else{
                       if(mNewsResultList[index].imageList.length>0){
 

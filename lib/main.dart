@@ -80,6 +80,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   FocusNode _focusNode;
   TextEditingController _controller;
   String queryWord="习近平";
+
+
+  MethodChannel _channel;
+
+  void onCCViewCreated(int id) {
+    _channel = new MethodChannel('com.example.flutter_app1.nativeview/cctextview_$id');
+    setCCViewText("默认值");
+  }
+
+  //调用setCCViewText可执行setText方法，对应上面CCTextView的onMethodCall对应接收操作
+  Future<void> setCCViewText(String text) async {
+    assert(text != null);
+    return _channel.invokeMethod('setText', text);
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -242,7 +257,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                 child: Center(
                   child:Container(
                     width: double.infinity, height:50,
-                    child:SampleView() ,
+                    //child:SampleView() ,
+                    child: AndroidView(viewType: "com.example.flutter_app1.nativeview/cctextview",
+                      creationParams: {
+                        "myContent": "我是flutter通过参数传入的文本内容",
+                      },
+                      creationParamsCodec: const StandardMessageCodec(),
+                      onPlatformViewCreated: onCCViewCreated, //初始化
+                    ),
                   ),
                 )),
           ],

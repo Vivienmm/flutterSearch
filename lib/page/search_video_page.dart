@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_video_entity.dart';
+import 'package:flutter_app1/page/web_view_page.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/txt_keyword.dart';
@@ -232,14 +233,14 @@ class _VideoSearchPageState extends State<VideoSearchPage> {
                 tag: imgPath,
                 child:GestureDetector(
                   onTap:(){
-//                    Navigator.of(context).push(
-//
-//                        new MaterialPageRoute(builder: (context) {
-//
-//
-//                          return new WebViewShow(url:mVideoResultList[index].url,title: "新闻详情",);//url为要跳转的地址,title为需要传递的参数
-//                        },
-//                        ));
+                    Navigator.of(context).push(
+
+                        new MaterialPageRoute(builder: (context) {
+
+                          return new WebViewExample();//url为要跳转的地址,title为需要传递的参数
+                          //return new WebViewExample(url:mVideoResultList[index].url,title: "新闻详情",);//url为要跳转的地址,title为需要传递的参数
+                        },
+                        ));
                   },
                   child: FadeInImage(
                     height: 120,

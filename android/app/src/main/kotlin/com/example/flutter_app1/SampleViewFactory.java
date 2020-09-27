@@ -13,7 +13,7 @@ import io.flutter.plugin.platform.PlatformView;
 import io.flutter.plugin.platform.PlatformViewFactory;
 
 //视图工厂类
-class SampleViewFactory extends PlatformViewFactory {
+public class SampleViewFactory extends PlatformViewFactory {
 
 
     private final BinaryMessenger messenger;

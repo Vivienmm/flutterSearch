@@ -55,9 +55,7 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
           mHtmlResultList.addAll(htmls);
         }
 
-
         mNewsResultList=[];
-
         setState(() {
           for(int i=0;i<entityList.length;i++){
             mNewsResultList.add(entityList[i]);

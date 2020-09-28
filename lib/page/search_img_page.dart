@@ -123,7 +123,7 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
   Widget build(BuildContext context) {
 
     return Container(
-      padding: EdgeInsets.only(top: 15),
+      padding: EdgeInsets.only(top: 15,left: 10,right: 10),
 
       child: RefreshIndicator(
         onRefresh: pullToRefresh,
@@ -163,8 +163,11 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
   Widget  itemWidget(int index){
     String imgPath = mImgResultList[index].url;
     return Container(
+
       width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(left: 4,right: 5,top: 10,bottom: 9),
       child: Column(
+
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -174,7 +177,7 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
         borderRadius: new BorderRadius.all(
           new Radius.circular(8.0),
         ),
-        child: new InkWell(
+          child: new InkWell(
           onTap: () {
             Navigator.push(
               context,
@@ -187,14 +190,16 @@ class _ImgSearchPageState extends State<ImgSearchPage> {
           },
           child: new Hero(
             tag: imgPath,
-            child: FadeInImage(
-              height: 120,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child:FadeInImage(
               fit: BoxFit.fitWidth,
               placeholder:
               AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
               image: NetworkImage(
                 imgPath,
               ),
+            ),
             ),
           ),
         ),

@@ -32,13 +32,15 @@ class MyApp extends StatelessWidget {
        accentColor: Colors.white,//(按钮)Widget前景色为白色
       primaryColor: Colors.blue,//主题色为蓝色
       iconTheme:IconThemeData(color: Colors.grey),//icon主题为灰色
-      textTheme: TextTheme(body1: TextStyle(color: Colors.black))//文本主题为黑色
+      textTheme: TextTheme(body1: TextStyle(color: Colors.black)),//文本主题为黑色
+    scaffoldBackgroundColor: Colors.white,
        );
   final ThemeData kAndroidTheme = ThemeData( brightness: Brightness.light,//深色主题
        accentColor: LcfarmColor.themeColor,//(按钮)Widget前景色为黑色
        primaryColor: Colors.cyan,//主题色Wie青色
       iconTheme:IconThemeData(color: Colors.blue),//icon主题色为蓝色
-      textTheme: TextTheme(body1: TextStyle(color: LcfarmColor.colorTitle))//文本主题色为红色
+      textTheme: TextTheme(body1: TextStyle(color: LcfarmColor.colorTitle)),
+      scaffoldBackgroundColor: Colors.white,//文本主题色为红色
       );
   ThemeData defaultTargetPlatform;
   @override
@@ -184,6 +186,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+
         appBar: new CsSearchBar(
         focusNode: _focusNode,
         controller: _controller,

@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_news_entity.dart';
 import 'package:flutter_app1/public.dart';
+import 'package:flutter_app1/util/color_factory.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_des.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
 import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/loading_container.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_html/flutter_html.dart';
 //import 'package:webview_flutter_plus/webview_flutter_plus.dart';
@@ -20,6 +22,7 @@ class NewsSearchPage extends StatefulWidget{
 }
 
 class _NewsSearchPageState extends State<NewsSearchPage>{
+  bool isRefreshloading=true;
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -71,10 +74,12 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
           mNewsResultList.add(entityList[i]);
         }
         setState(() {
-
+          isRefreshloading = false;
 
         });
-      }, (error) {});
+      }, (error) {
+        isRefreshloading = false;
+      });
     } else {
       FormData params =
       FormData.fromMap({
@@ -159,181 +164,59 @@ class _NewsSearchPageState extends State<NewsSearchPage>{
     var size = MediaQuery.of(context).size;
     final double mGridItemHeight = 200;
     final double mGridItemWidth = size.width / 2;
-
-    return Container(
-      padding: EdgeInsets.only(top: 15),
-
+    return Scaffold(
+        body: LoadingContainer(
+        isLoading: isRefreshloading,
       child: RefreshIndicator(
         onRefresh: pullToRefresh,
-        child:new CustomScrollView(
-          controller: mScrollController,
-          slivers: <Widget>[
-
-            SliverToBoxAdapter(
-
-
-                child: StaggeredGridView.countBuilder(
-                  shrinkWrap: true,
-
-                  crossAxisCount: 1,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 10,
-                  physics: new NeverScrollableScrollPhysics(),
-                  itemCount: mNewsResultList.length,
-                  itemBuilder: (context, index) {
-
-                    if(index==0&&hasLuna){
-                      hasLuna=false;
-                      return Html(data: jsAll);
-
-                    }else{
-                      if(mNewsResultList[index].imageList.length>0){
-
-                        if(mNewsResultList[index].snippet.length>0){
-                          return ItemImgDes(
-                              title:mNewsResultList[index].title,
-                              source:mNewsResultList[index].source,
-                              imgUrl: mNewsResultList[index].imageList[0],
-                          snippet: mNewsResultList[index].snippet,);
-                        }else{
-                          return ItemImgTitle(
-                              title:mNewsResultList[index].title,
-                              source:mNewsResultList[index].source,
-                              imgUrl: mNewsResultList[index].imageList[0]);
-                        }
-
-                      }else{
-                        return ItemNoImg(
-                            title:mNewsResultList[index].title,
-                            source:mNewsResultList[index].source);
-                      }
-                    }
-
-
-                  },
-                  staggeredTileBuilder: (index) =>
-                      StaggeredTile.fit(2),
-                ),
-              ),
-
-            new SliverToBoxAdapter(
-              child: Container(
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: mNewsResultList.length+1,
+          separatorBuilder: (context, index) {
+            return Divider(height: 10.0, thickness:10,color: LcfarmColor.dividerColor);
+          },
+          itemBuilder: (context, index) {
+            if (index == mNewsResultList.length) {
+              return  Container(
                 height: 40,
                 child:Footer(isloadingMore: isloadingMore, ishasMore: ishasMore),
-              ),
-            ),
-          ]),
+              );
+            } else {
+              if(index==0&&hasLuna){
+                hasLuna=false;
+                return Html(data: jsAll);
+
+              }else{
+                if(mNewsResultList[index].imageList.length>0){
+
+                  if(mNewsResultList[index].snippet.length>0){
+                    return ItemImgDes(
+                      title:mNewsResultList[index].title,
+                      source:mNewsResultList[index].source,
+                      imgUrl: mNewsResultList[index].imageList[0],
+                      snippet: mNewsResultList[index].snippet,);
+                  }else{
+                    return ItemImgTitle(
+                        title:mNewsResultList[index].title,
+                        source:mNewsResultList[index].source,
+                        imgUrl: mNewsResultList[index].imageList[0]);
+                  }
+
+                }else{
+                  return ItemNoImg(
+                      title:mNewsResultList[index].title,
+                      source:mNewsResultList[index].source);
+                }
+              }}
+          },
+          controller: mScrollController,
+        ),
 
       ),
+        ),
     );
 
   }
-
-
-  Widget getContentItem(BuildContext context, Data mModel) {
-    return Container(
-      //  height: 200,
-
-      child: Row(
-        textDirection: TextDirection.ltr,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize :MainAxisSize.max,
-        children: <Widget>[
-          Container(
-            height: 70,
-            width: 112,
-            child: ClipRRect(
-              //  borderRadius: BorderRadius.circular(5),
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder:
-                AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
-                image: NetworkImage(
-                  mModel.imageList[0],
-                ),
-              ),
-
-            ),
-          ),
-          Expanded(
-
-            child: Column(
-              textDirection: TextDirection.ltr,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize :MainAxisSize.max,
-              children: <Widget>[
-                Container(
-                  height: 50,
-                  child: Text(mModel.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: Colors.black)),
-                ),
-                Container(
-
-                  child: Text(mModel.timestamp.toString(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-                  //  margin: EdgeInsets.only(left: 60),
-                )
-
-              ],
-
-            ),
-          )
-
-
-        ],
-
-
-      ),
-
-
-    );
-  }
-
-  Widget getContentItemTxt(BuildContext context, Data mModel) {
-    return Container(
-      //  height: 200,
-
-      child: Column(
-        textDirection: TextDirection.ltr,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize :MainAxisSize.max,
-        children: <Widget>[
-          Container(
-            height: 70,
-            child: Text(mModel.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.black)),
-          ),
-          Container(
-
-            child: Text(mModel.timestamp.toString(),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14.0, color: Colors.grey)),
-            //  margin: EdgeInsets.only(left: 60),
-          )
-
-
-        ],
-
-
-      ),
-
-
-    );
-  }
-
-
-
-
 
 
 }

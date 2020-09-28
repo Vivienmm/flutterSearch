@@ -32,7 +32,7 @@ class _ItemImgDesState extends State<ItemImgDes> {
 
     return Container(
         //  height: 200,
-
+      padding: EdgeInsets.only(top: 15,bottom: 10),
         child: Column(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -26,7 +26,7 @@ class _ItemNoImgState extends State<ItemNoImg> {
 
     return Container(
       //  height: 200,
-
+      padding: EdgeInsets.only(top: 15,bottom: 10),
       child: Column(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,

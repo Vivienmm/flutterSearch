@@ -29,7 +29,7 @@ class _ItemImgTitleState extends State<ItemImgTitle> {
 
     return Container(
       //  height: 200,
-
+      padding: EdgeInsets.only(top: 15,bottom: 10),
       child: Row(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,

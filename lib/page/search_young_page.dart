@@ -2,10 +2,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_young_entity.dart';
 import 'package:flutter_app1/public.dart';
+import 'package:flutter_app1/util/color_factory.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
 import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app1/widget/loading_container.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_app1/widget/full_screen_page.dart';
@@ -20,6 +22,7 @@ class YoungSearchPage extends StatefulWidget{
 
 }
 class _YoungSearchPageState extends State<YoungSearchPage> {
+  bool isRefreshloading=true;
   bool isloadingMore = false; //是否显示加载中
   bool ishasMore = true; //是否还有更多
   num mCurPage = 1;
@@ -52,9 +55,11 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
         }
 
         setState(() {
-
+          isRefreshloading = false;
         });
-      }, (error) {});
+      }, (error) {
+        isRefreshloading = false;
+      });
     } else {
       FormData params =
       FormData.fromMap({
@@ -79,43 +84,6 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
       });
     }
   }
-  Widget _buildLoadMore() {
-    return isloadingMore
-        ? Container(
-        height: 20,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5),
-          child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: SizedBox(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                      height: 12.0,
-                      width: 12.0,
-                    ),
-                  ),
-                  Text("加载中..."),
-                ],
-              )),
-        ))
-        : new Container(
-      child: ishasMore
-          ? new Container()
-          : Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 5, bottom: 5),
-              child: Text(
-                "没有更多数据",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ))),
-    );
-  }
-
 
   Future pullToRefresh() async {
     getYoungResultList(true);
@@ -165,26 +133,25 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
     final double mGridItemHeight = 200;
     final double mGridItemWidth = size.width / 2;
 
-    return Container(
-      padding: EdgeInsets.only(top: 15),
-
+    return Scaffold(
+      body: LoadingContainer(
+        isLoading: isRefreshloading,
       child: RefreshIndicator(
         onRefresh: pullToRefresh,
-        child:new CustomScrollView(
-          controller: mScrollController,
-          slivers: <Widget>[
-            SliverToBoxAdapter(
+        child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: mYoungResultList.length+1,
+        separatorBuilder: (context, index) {
+          return Divider(height: 10.0, thickness:10,color: LcfarmColor.dividerColor);
+        },
+          itemBuilder: (context, index) {
 
-
-                child: StaggeredGridView.countBuilder(
-                  shrinkWrap: true,
-
-                  crossAxisCount: 1,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 10,
-                  physics: new NeverScrollableScrollPhysics(),
-                  itemCount: mYoungResultList.length,
-                  itemBuilder: (context, index) {
+         if (index == mYoungResultList.length) {
+              return  Container(
+                  height: 40,
+                  child:Footer(isloadingMore: isloadingMore, ishasMore: ishasMore),
+               );
+          } else {
                     if(mYoungResultList[index].imgs.length>0){
 
                       return ItemImgTitle(
@@ -196,21 +163,13 @@ class _YoungSearchPageState extends State<YoungSearchPage> {
                           title:mYoungResultList[index].title,
                           source:mYoungResultList[index].originalsource);
                     }
-
+          }
                   },
-                  staggeredTileBuilder: (index) =>
-                      StaggeredTile.fit(2),
+          controller: mScrollController,
                 ),
               ),
 
 
-            new SliverToBoxAdapter(
-              child: Container(
-                height: 40,
-                child:Footer(isloadingMore: isloadingMore, ishasMore: ishasMore),
-              ),
-            ),
-          ]),
       ),
     );
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/util/color_factory.dart';
 
+import '../txt_keyword.dart';
+
 class GamePublisher extends StatefulWidget{
   String publisher;
   String provider;
@@ -45,7 +47,8 @@ class _GamePublishState extends State<GamePublisher> {
         ),
         Container(
           width: double.infinity,
-          height: widget.provider.length>0?20.0:2.0,
+          padding: EdgeInsets.only(top:10),
+          height: widget.provider.length>0?30.0:2.0,
           child:Row(
             children: <Widget>[
               Text("运营：",style: TextStyle(fontSize: 12.0, color: Colors.grey)),
@@ -56,9 +59,10 @@ class _GamePublishState extends State<GamePublisher> {
         ),
         Container(
           width: double.infinity,
-          height: widget.documentNumber.length>0?20.0:2.0,
+          padding: EdgeInsets.only(top:20),
+          height: widget.documentNumber.length>0?40.0:2.0,
           child:
-              Text(widget.documentNumber+"   "+widget.publicationNumber,style: TextStyle(fontSize: 12.0, color: Colors.grey)),
+          Text(widget.documentNumber+"   "+widget.publicationNumber,style: TextStyle(fontSize: 12.0, color: Colors.grey)),
         ),
       ],
     );

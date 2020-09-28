@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_games_entity.dart';
 import 'package:flutter_app1/public.dart';
+import 'package:flutter_app1/util/color_factory.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
 import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
@@ -48,9 +49,14 @@ class _GameSearchPageState extends State<GameSearchPage>with AutomaticKeepAliveC
 
         List<Data> entityList = DataBean.fromJson(data['data']).data;
         mGameResultList=[];
-        for(int i=0;i<entityList.length;i++){
-          mGameResultList.add(entityList[i]);
+        if(null!=entityList&&entityList.length>0){
+          for(int i=0;i<entityList.length;i++){
+            mGameResultList.add(entityList[i]);
+          }
+        }else{
+
         }
+
 
         setState(() {
           isRefreshloading = false;
@@ -69,7 +75,13 @@ class _GameSearchPageState extends State<GameSearchPage>with AutomaticKeepAliveC
       DioManager.getInstance().get(ServiceUrl.getGameResult, params, (data) {
 
         List<Data> entityList = DataBean.fromJson(data['data']).data;
-        mGameResultList.addAll(entityList);
+
+        if(null!=entityList&&entityList.length>0){
+          mGameResultList.addAll(entityList);
+        }else{
+
+        }
+
         isloadingMore = false;
         ishasMore = entityList.length >= Constant.PAGE_SIZE;
         setState(() {
@@ -83,43 +95,6 @@ class _GameSearchPageState extends State<GameSearchPage>with AutomaticKeepAliveC
       });
     }
   }
-  Widget _buildLoadMore() {
-    return isloadingMore
-        ? Container(
-        height: 20,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5),
-          child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: SizedBox(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                      height: 12.0,
-                      width: 12.0,
-                    ),
-                  ),
-                  Text("加载中..."),
-                ],
-              )),
-        ))
-        : new Container(
-      child: ishasMore
-          ? new Container()
-          : Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 5, bottom: 5),
-              child: Text(
-                "没有更多数据",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ))),
-    );
-  }
-
 
   Future pullToRefresh() async {
     getGameResultList(true);
@@ -174,9 +149,12 @@ class _GameSearchPageState extends State<GameSearchPage>with AutomaticKeepAliveC
 
             onRefresh: pullToRefresh,
 
-                child: ListView.builder(
+                child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: mGameResultList.length+1,
+                  separatorBuilder: (context, index) {
+                    return Divider(height: 10.0, thickness:10,color: LcfarmColor.dividerColor);
+                  },
                   itemBuilder: (context, index) {
                   if (index == mGameResultList.length) {
                   return  Container(
@@ -230,12 +208,14 @@ class _GameSearchPageState extends State<GameSearchPage>with AutomaticKeepAliveC
       imgUrl=mModel.imageList[0];
     }
     return Container(
-
+      height: 265,
+      padding: EdgeInsets.only(left: 15,right: 15),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           new GameTitle(title:mModel.title,isShow: isShowCe),
           new GameIntro(imgUrl:imgUrl ,snippet: description,),
-          new GamePublisher(publisher: publisher,publicationNumber: publicationNumber,provider: provider,documentNumber: documentNumber,)
+          new GamePublisher(publisher: publisher,publicationNumber: publicationNumber,provider: provider,documentNumber: documentNumber,),
         ],
 
 

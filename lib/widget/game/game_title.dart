@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/constant/constant.dart';
 import 'package:flutter_app1/util/color_factory.dart';
+import 'package:flutter_app1/widget/txt_keyword.dart';
 
 class GameTitle extends StatefulWidget{
   String title;
@@ -25,11 +26,10 @@ class _GameTitleState extends State<GameTitle> {
     double widthImg= widget.isShow?0.0:16.0;
    return Row(
      children: <Widget>[
-       Text(widget.title,maxLines:2,style: TextStyle(fontSize: 16.0, color: LcfarmColor.colorTitle,fontWeight: FontWeight.bold)),
+       SelectText(widget.title,maxLines:2,style: TextStyle(fontSize: 16.0, color: LcfarmColor.colorTitle,fontWeight: FontWeight.bold)),
        Container(
          width: widthImg,
          child:Image(
-
            image: AssetImage(Constant.ASSETS_IMG + 'game_icon.png'),
          ),
        )

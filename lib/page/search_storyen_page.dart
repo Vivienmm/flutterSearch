@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_en_story_entity.dart';
+import 'package:flutter_app1/util/color_factory.dart';
 import 'package:flutter_app1/util/color_utils.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/scroll_tag.dart';
@@ -83,42 +84,6 @@ class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> with Automati
       });
     }
   }
-  Widget _buildLoadMore() {
-    return isloadingMore
-        ? Container(
-        height: 20,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5),
-          child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: SizedBox(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                      height: 12.0,
-                      width: 12.0,
-                    ),
-                  ),
-                  Text("加载中..."),
-                ],
-              )),
-        ))
-        : new Container(
-      child: ishasMore
-          ? new Container()
-          : Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 5, bottom: 5),
-              child: Text(
-                "没有更多数据",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ))),
-    );
-  }
 
 
   Future pullToRefresh() async {
@@ -176,11 +141,14 @@ class _StoryEnEnSearchPageState extends State<StoryEnEnSearchPage> with Automati
           // key: _refreshIndicatorKey,
 
           onRefresh: pullToRefresh,
-          child: ListView.builder(
+          child: ListView.separated(
             shrinkWrap: true,
 
             //physics: new NeverScrollableScrollPhysics(),
             itemCount: mStoryEnResultList.length+1,
+            separatorBuilder: (context, index) {
+              return Divider(height: 10.0, thickness:10,color: LcfarmColor.dividerColor);
+            },
             itemBuilder: (context, index) {
               if (index == mStoryEnResultList.length) {
                 return Container(

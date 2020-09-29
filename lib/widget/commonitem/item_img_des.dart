@@ -32,7 +32,7 @@ class _ItemImgDesState extends State<ItemImgDes> {
 
     return Container(
         //  height: 200,
-      padding: EdgeInsets.only(top: 15,bottom: 10),
+      padding: EdgeInsets.only(top: 15,bottom: 5),
         child: Column(
         textDirection: TextDirection.ltr,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +94,9 @@ class _ItemImgDesState extends State<ItemImgDes> {
 
 
           ),Container(
-            padding: EdgeInsets.only(top: 15,bottom: 20),
+            padding: EdgeInsets.only(top: 15,bottom: 0),
             child: Text(widget.source,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 11.0, color: Colors.grey)),
             //  margin: EdgeInsets.only(left: 60),

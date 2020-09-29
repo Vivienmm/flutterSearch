@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_story_entity.dart';
+import 'package:flutter_app1/util/color_factory.dart';
 import 'package:flutter_app1/util/color_utils.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/scroll_tag.dart';
@@ -178,11 +179,14 @@ class _StorySearchPageState extends State<StorySearchPage> with AutomaticKeepAli
             // key: _refreshIndicatorKey,
 
             onRefresh: pullToRefresh,
-                child: ListView.builder(
+                child: ListView.separated(
                   shrinkWrap: true,
 
                 //  physics: new NeverScrollableScrollPhysics(),
                   itemCount: mStoryResultList.length+1,
+                  separatorBuilder: (context, index) {
+                    return Divider(height: 10.0, thickness:10,color: LcfarmColor.dividerColor);
+                  },
                   itemBuilder: (context, index) {
                     if (index == mStoryResultList.length) {
                       return Container(
@@ -254,7 +258,7 @@ class _StorySearchPageState extends State<StorySearchPage> with AutomaticKeepAli
                   tags: tags,
                   backgroundColor: Colors.white,
                   itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
-                  radius: 15,
+                  radius: 8,
                   tagHeight: 30,
                   width: 250,
                   onTap: (text) {
@@ -305,7 +309,7 @@ class _StorySearchPageState extends State<StorySearchPage> with AutomaticKeepAli
                   tags: tags,
                   backgroundColor: Colors.white,
                   itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
-                  radius: 15,
+                  radius: 8,
                   tagHeight: 30,
                   width: 250,
                   onTap: (text) {
@@ -358,8 +362,8 @@ class _StorySearchPageState extends State<StorySearchPage> with AutomaticKeepAli
                   ScrollTagView(
                     tags: tags,
                     backgroundColor: Colors.white,
-                    itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 14),
-                    radius: 15,
+                    itemStyle: TextStyle(color: ColorsUtil.hexColor(0xC47E66),fontSize: 13),
+                    radius: 8,
                     tagHeight: 30,
                     width: 250,
                     onTap: (text) {

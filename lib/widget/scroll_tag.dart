@@ -71,12 +71,12 @@ class ScrollTagView extends StatefulWidget {
     this.builder,
   }) : super(key: key) {
     /// 初始化默认值
-    this.itemPadding = this.itemPadding ?? EdgeInsets.fromLTRB(5, 2, 5, 2);
+    this.itemPadding = this.itemPadding ?? EdgeInsets.fromLTRB(8, 0, 8, 0);
     this.itemStyle = this.itemStyle ??
-        TextStyle(color: Color(0xFFF0441C), fontSize: ScreenUtil().setSp(12));
+        TextStyle(color: Color(0xFFF0441C), fontSize: ScreenUtil().setSp(13));
     this.color = this.color ?? ColorsUtil.hexColor(0xfff6eeeb);
     this.padding = this.padding ??
-        EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10);
+        EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10);
   }
 
   @override
@@ -99,7 +99,7 @@ class _ScrollTagViewState extends State<ScrollTagView> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
 
-          Text('标签', style: TextStyle(color: ColorsUtil.hexColor(0xC47E66), fontSize: 14)),
+          Text('标签', style: TextStyle(color: ColorsUtil.hexColor(0xC47E66), fontSize: 12)),
           Expanded(
               child: new ListView.builder(
 
@@ -124,6 +124,8 @@ class _ScrollTagViewState extends State<ScrollTagView> {
 
     return Container(
       alignment: Alignment.center,
+
+      margin: EdgeInsets.only(left: 5,right: 5),
       height: widget.tagHeight,
         child: Text(
          widget.tags[i],

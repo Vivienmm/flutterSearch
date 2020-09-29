@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app1/model/search_app_entity.dart';
 import 'package:flutter_app1/public.dart';
+import 'package:flutter_app1/util/color_factory.dart';
 import 'package:flutter_app1/util/color_utils.dart';
 import 'package:flutter_app1/widget/build_more_footer.dart';
 import 'package:flutter_app1/widget/commonitem/item_img_title.dart';
@@ -169,8 +170,11 @@ class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveCl
         isLoading:isRefreshloading,
         child: RefreshIndicator(
           onRefresh: pullToRefresh,
-          child: new ListView.builder(
+          child: new ListView.separated(
             itemCount: mAppResultList.length + 1,
+            separatorBuilder: (context, index) {
+              return Divider(height: 10.0, thickness:10,color: LcfarmColor.dividerColor);
+            },
             itemBuilder: (context, index) {
               if (index == mAppResultList.length) {
                 return  Container(
@@ -202,17 +206,28 @@ class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveCl
             ),
             Row(
              mainAxisSize: MainAxisSize.min,
+
               children: <Widget>[
 
                 ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
+                    child:FadeInImage(
+                      fit: BoxFit.fitWidth,
+                      width: 62,
+                      height: 62,
+                      placeholder:
+                      AssetImage(Constant.ASSETS_IMG + 'img_default2.jpeg'),
+                      image: NetworkImage(
                         mAppResult.icon,
-                        width: 62,
-                        height: 62
-                    )
+
+                      ),
+                    ),
+
                 ),
-                Text(mAppResult.siteName),
+                Container(
+                  width: 10,
+                ),
+                Text(mAppResult.siteName,style: TextStyle(fontSize:16,fontWeight: FontWeight.w400,),),
                 Expanded(
                   child: Text(''), // 中间用Expanded控件
                 ),
@@ -225,24 +240,27 @@ class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveCl
               physics: new NeverScrollableScrollPhysics(),
               itemCount: size,
               separatorBuilder: (BuildContext context, int index) =>
-                  Divider(height: 1.0, color:Colors.grey),
+                  Divider(height: 1.0, color:Colors.white),
               itemBuilder: (context, index) {
 
                 int imgLength=mAppResult.searchResults[index].imageList.length;
+                String timeStamp=mAppResult.searchResults[index].publishTimstamp.toString()+"000";
+                DateTime date=DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp));
+                String time=date.year.toString()+"年"+date.month.toString()+"月"+date.day.toString()+"日";
                 if(imgLength==0){
                   return ItemNoImg(title:mAppResult.searchResults[index].title,
-                      source:mAppResult.siteName);
+                      source:time);
                 }else if(0<imgLength&&imgLength<3){
                   if(mAppResult.searchResults[index].snippet.length>0){
                     return ItemImgDes(
                         title:mAppResult.searchResults[index].title,
-                        source:mAppResult.searchResults[index].publishTimstamp.toString(),
+                        source:time,
                         imgUrl: mAppResult.searchResults[index].imageList[0],
                         snippet: mAppResult.searchResults[index].snippet);
                   }else{
                     return ItemImgTitle(
                         title:mAppResult.searchResults[index].title,
-                        source:mAppResult.searchResults[index].publishTimstamp.toString(),
+                        source:time,
                         imgUrl: mAppResult.searchResults[index].imageList[0],
                         );
                   }
@@ -250,7 +268,7 @@ class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveCl
                 }else{
                   return ItemImgTitle(
                     title:mAppResult.searchResults[index].title,
-                    source:mAppResult.searchResults[index].source,
+                    source:time,
                     imgUrl: mAppResult.searchResults[index].imageList[0],
                   );
                 }
@@ -258,15 +276,27 @@ class _AppSearchPageState extends State<AppSearchPage> with AutomaticKeepAliveCl
               },
 
             ),
-            Divider(height: 1.0,indent: 60.0,color: Colors.grey,),
 
-            Text(
-              "查看更多"
+            Container(
+              alignment: Alignment.center,
+              width: 100,
+
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              child:Row(
+                children: <Widget>[
+                  Text(
+                      "查看更多",
+                  style: TextStyle(fontSize: 12.0, color: Colors.grey)
+                  ),
+                  Image(
+                    height:12 ,
+                    width:12 ,
+                    image: AssetImage(Constant.ASSETS_IMG + 'down_more.png'),
+                  ),
+                ],
+              ),
             ),
-           Container(
-             height: 20,
-             color: ColorsUtil.hexColor(0xF9F9F9),
-           ),
+
           ],
         ),
       );

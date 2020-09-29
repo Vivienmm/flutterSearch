@@ -122,7 +122,7 @@ flutter:
     - assets/images/chain_icon.png
     - assets/images/game_icon.png
     - assets/images/search_bar_icon.png
-    - assets/ #根目录也是可以批量指定的
+    - assets/images/down_more.png #根目录也是可以批量指定的
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

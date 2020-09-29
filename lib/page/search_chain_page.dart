@@ -11,6 +11,7 @@ import 'package:flutter_app1/widget/commonitem/item_img_des.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/widget/chain/chain_view_no_img.dart';
 import 'package:flutter_app1/widget/loading_container.dart';
+import 'package:flutter_app1/widget/txt_keyword.dart';
 
 
 
@@ -153,7 +154,7 @@ class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliv
                 if(mCurPage==1){
                   if (mChainResultList[index].type == 1 ||
                       mChainResultList[index].type == 2) {
-                    return ChainVideoList(context, mChainResultList[index]);
+                    return ChainVideoList(context, mChainResultList[index],widget.qury);
                     //return ChainViewAdapter( result:mChainResult.searchResults[index]);
                   } else {
                     return ChainNewsList(context, mChainResultList[index]);
@@ -171,89 +172,57 @@ class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliv
     );
 
   }
-
-  Widget getContentItem(BuildContext context, int index, Data mChainResult) {
-
-
-
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            height:30,
-
-          ),
-
-          ListView.separated(
-            shrinkWrap: true,
-
-            physics: new NeverScrollableScrollPhysics(),
-            itemCount: mChainResult.searchResults.length,
-            separatorBuilder: (BuildContext context, int index) =>
-                Divider(height: 1.0, color:Colors.grey),
-            itemBuilder: (context, index) {
-              if(mChainResult.type==1||mChainResult.type==2){
-                return ChainVideoList(context,mChainResult);
-                //return ChainViewAdapter( result:mChainResult.searchResults[index]);
-              }else{
-                return ChainNewsList(context, mChainResult);
-              }
-
-
-            },
-
-          ),
-          Divider(height: 1.0,indent: 60.0,color: Colors.grey,),
-
-          Text(
-              "查看更多"
-          ),
-          Container(
-            height: 20,
-            color: ColorsUtil.hexColor(0xF9F9F9),
-          ),
-        ],
-      ),
-    );
-
-
-  }
-
-
-//  Widget ChainVideoList (BuildContext context,Data  data) {
-//    return Container(
-//      height: 400,
-//      width: 300,
-//      child: ListView.builder(
-//
-//        scrollDirection: Axis.horizontal,
-//        itemCount: data.searchResults.length,
-//        itemBuilder:(context, index){
-//          return ChainViewAdapter( result:data.searchResults[index]);
-//        },
-//
-//      ),
-//    );
-//
-//  }
-
 }
 
-  Widget ChainVideoList (BuildContext context,Data  data) {
+  Widget ChainVideoList (BuildContext context,Data  data,String query) {
+  String type;
+  if(data.type==1){
+    type="-图片";
+  }else{
+    type="-视频";
+  }
   return Container(
-    height: 400,
-    width: 300,
-    child: ListView.builder(
+    width: double.infinity,
+    margin:EdgeInsets.only(left: 10,right: 2),
+    child: Column(
 
-      scrollDirection: Axis.horizontal,
-      itemCount: data.searchResults.length,
-      itemBuilder:(context, index){
-        return ChainViewAdapter( result:data.searchResults[index]);
-      },
+      children: <Widget>[
+        Container(
+//          margin:EdgeInsets.only(top: 10,bottom: 20) ,
+        alignment: Alignment.centerLeft,
+          child:  SelectText(
+              query+type,style:new TextStyle(fontSize: 18,fontWeight: FontWeight.w600,)
+          ),
+        ),
+        Container(
+        height: 370,
+         width: 400,
+        child: ListView.builder(
+
+          scrollDirection: Axis.horizontal,
+          itemCount: data.searchResults.length,
+          itemBuilder:(context, index){
+         return ChainViewAdapter( result:data.searchResults[index]);
+    },
 
     ),
+    )
+      ],
+    ),
   );
+//  return Container(
+//    height: 400,
+//    width: 300,
+//    child: ListView.builder(
+//
+//      scrollDirection: Axis.horizontal,
+//      itemCount: data.searchResults.length,
+//      itemBuilder:(context, index){
+//        return ChainViewAdapter( result:data.searchResults[index]);
+//      },
+//
+//    ),
+//  );
 
 }
 

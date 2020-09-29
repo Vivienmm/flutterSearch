@@ -22,22 +22,24 @@ class _ChainViewSourceState extends State<ChainViewSource> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    String timeStamp=widget.time+"000";
+    DateTime date=DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp));
+    String timePrint=date.year.toString()+"年"+date.month.toString()+"月"+date.day.toString()+"日";
     return Container(
       width: double.infinity,
-      height:76 ,
-      decoration: BoxDecoration(
-        color:  LcfarmColor.chainBgColor.withOpacity(.5),
-      ),
+      margin: EdgeInsets.only(top: 10),
+
       child: Row(
         children: <Widget>[
 
           Text(
-              widget.source+"."+widget.time.toString(),
-              style: TextStyle(fontSize: 13.0, color: LcfarmColor.colorTitle)
+              widget.source+"·"+timePrint,
+              style: TextStyle(fontSize: 11.0, color: LcfarmColor.sourceColor)
           ),
 
           Flexible(fit: FlexFit.tight, child: SizedBox()),
-          Text("反馈",style: TextStyle(fontSize: 13.0, color: LcfarmColor.colorTitle,fontWeight: FontWeight.bold))
+          Text("反馈",style: TextStyle(fontSize: 11.0, color: LcfarmColor.sourceColor))
         ],
       ),
 

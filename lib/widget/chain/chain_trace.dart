@@ -41,8 +41,7 @@ class _ChainTraceState extends State<ChainTrace> {
                 "溯源新闻： ",
                  style: TextStyle(fontSize: 11.0, color: LcfarmColor.colorTitle)
               ),
-              Container(
-                width: 200,
+              Expanded(
 
                   child: ListView.builder(
 
@@ -55,7 +54,7 @@ class _ChainTraceState extends State<ChainTrace> {
                       return Container(
                         height: 60,
                         alignment: Alignment.center,
-                        child:Text(widget.traces[index]+"  ",style: TextStyle(fontSize: 11.0, color: LcfarmColor.colorChainBlue,backgroundColor: Colors.black)) ,
+                        child:Text(widget.traces[index]+"  ",style: TextStyle(fontSize: 11.0, color: LcfarmColor.colorChainBlue)) ,
                       );
                     },
 

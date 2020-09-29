@@ -12,6 +12,7 @@ class ChainCerti extends StatelessWidget{
      width: 107,
      height:60 ,
      alignment: Alignment.center,
+     margin: EdgeInsets.only(right: 10),
      decoration: new BoxDecoration(color:Colors.white,),
       //
      child:Center(

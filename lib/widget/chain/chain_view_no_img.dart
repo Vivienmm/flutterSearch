@@ -6,6 +6,7 @@ import 'package:flutter_app1/widget/chain/chain_height_with_certi.dart';
 import 'package:flutter_app1/public.dart';
 import 'package:flutter_app1/widget/commonitem/item_no_img.dart';
 
+import 'chain_item_no_img.dart';
 import 'chain_trace.dart';
 import 'chain_view_source.dart';
 class ChainViewNoImg extends StatefulWidget{
@@ -62,9 +63,9 @@ class _ChainViewNoImgState extends State<ChainViewNoImg> {
         child:SingleChildScrollView(
           child:Column(
             children: <Widget>[
-             ItemNoImg(
+             ChainItemNoImg(
             title:widget.result.title,
-            source: widget.result.snippet,
+            snippt: widget.result.snippet,
            ),
               ChainViewSource(source: widget.result.source,time: widget.result.publishTimstamp.toString(),),
               ChainHeightWithCer(height:height,hashCodePrint: hashcodePrint,certiUrl: cerUrl,),

@@ -22,5 +22,7 @@ class LcfarmColor {
   static const Color themeColor = const Color(0xffE71F26);
   static const Color dividerColor = const Color(0xfff9f9f9);
   static const Color sourceColor = const Color(0xffA0A0A0);
+  static const Color chainTxtColor = const Color(0xff4C4C4C);
+
 
 }

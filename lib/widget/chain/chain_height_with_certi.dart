@@ -31,12 +31,14 @@ class _ChainHeightWithCerState extends State<ChainHeightWithCer> {
     }else{
       return Container(
           width: double.infinity,
-          height:60 ,
+          margin: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: 8,left: 8,bottom: 8,right: 8),
           decoration: BoxDecoration(
-            color:  LcfarmColor.chainBgColor.withOpacity(.5),
+            color:  LcfarmColor.chainBgColor.withOpacity(.9),
           ),
           child:Row(
-
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment:  CrossAxisAlignment.start,
             children: <Widget>[
               ChainCerti(
 
@@ -48,12 +50,24 @@ class _ChainHeightWithCerState extends State<ChainHeightWithCer> {
                   children: <Widget>[
 
                     Text(
-                        "区块高度"+widget.height,textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 13.0, color: LcfarmColor.colorTitle)
+                        "区块高度:"+widget.height,textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 13.0, color: LcfarmColor.chainTxtColor)
                     ),
-
-                    Text(widget.hashCodePrint,maxLines: 1, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13.0, color: LcfarmColor.colorTitle))
-                  ],
+                    Container(
+                      height: 12,
+                    ),
+                    Row(
+                     children: <Widget>[
+                      Text(
+                      "指纹认证: ",
+                      style: TextStyle(fontSize: 13.0, color: LcfarmColor.chainTxtColor)
+                     ),
+                     Expanded(
+                       child: Text(widget.hashCodePrint,textAlign: TextAlign.left,maxLines: 1, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13.0, color: LcfarmColor.colorChainBlue))
+                    ,
+                  )
+                ],
+              )                  ],
                 ),
               )
 

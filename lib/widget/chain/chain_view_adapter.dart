@@ -2,6 +2,8 @@ import 'package:flutter_app1/model/search_block_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/model/search_block_entity.dart';
 import 'package:flutter_app1/widget/chain/chain_height_with_certi.dart';
+import 'package:flutter_app1/widget/chain_txt_keyword.dart';
+import '../txt_keyword.dart';
 import 'chain_view_source.dart';
 import 'package:flutter_app1/public.dart';
 class ChainViewAdapter extends StatefulWidget{
@@ -44,13 +46,14 @@ class _ChainViewAdapterState extends State<ChainViewAdapter> {
     return Container(
       height: 360,
       width: 300,
+        margin: EdgeInsets.only(left: 10, right: 10),
       child:SingleChildScrollView(
         child:Column(
           children: <Widget>[
             Container(
               height: 210,
               width: 300,
-              margin: EdgeInsets.only(left: 10, right: 2.5),
+              margin: EdgeInsets.only(left: 2, right: 2),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   image: DecorationImage(
@@ -64,6 +67,7 @@ class _ChainViewAdapterState extends State<ChainViewAdapter> {
                         alignment: Alignment.topRight,
                         child:Container(
                           margin: EdgeInsets.only(top: 3),
+                          padding: EdgeInsets.only(left: 6,right: 6),
                           decoration: BoxDecoration(
                             color:  Colors.black.withOpacity(.5),
 //                        image: DecorationImage(
@@ -73,20 +77,39 @@ class _ChainViewAdapterState extends State<ChainViewAdapter> {
                           ),
                           child: Text(
                               "图片溯源",
-                              style: TextStyle(fontSize: 16, color: Colors.white)),
+                              style: TextStyle(fontSize: 12, color: Colors.white)),
                         )
                     ),
                     Flexible(fit: FlexFit.tight, child: SizedBox()),//这个是实现一个左对齐，一个右对齐的关键
                     Align(
+
                         alignment: Alignment.bottomLeft,
                         child:Container(
-                          margin: EdgeInsets.only(top: 3),
-                          child: Text(
-                              widget.result.title,
-                              style: TextStyle(fontSize: 16, color: Colors.white)),
-                        )
-                    ),
+                          margin: EdgeInsets.only(left:5,top: 3),
 
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(top: 3),
+                                child:Image(
+                                  height:14 ,
+                                  width:14 ,
+                                  image: AssetImage(Constant.ASSETS_IMG + 'chain_icon.png'),
+                                ),
+                              )
+                              ,
+                            Expanded(
+                             child: ChainSelectText(
+                                  "     "+widget.result.title,
+                                  maxLines: 2,
+                                  style: TextStyle(fontSize: 16, color: Colors.white)),
+
+                            )
+
+                            ],
+                          )
+                    ),
+                    )
                   ]
               ),
 

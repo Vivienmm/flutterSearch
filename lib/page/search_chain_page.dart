@@ -87,42 +87,7 @@ class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliv
       });
     }
   }
-  Widget _buildLoadMore() {
-    return isloadingMore
-        ? Container(
-        height: 20,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5),
-          child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: SizedBox(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                      height: 12.0,
-                      width: 12.0,
-                    ),
-                  ),
-                  Text("加载中..."),
-                ],
-              )),
-        ))
-        : new Container(
-      child: ishasMore
-          ? new Container()
-          : Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 5, bottom: 5),
-              child: Text(
-                "没有更多数据",
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ))),
-    );
-  }
+
 
 
   Future pullToRefresh() async {
@@ -235,14 +200,6 @@ class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliv
                 return ChainNewsList(context, mChainResult);
               }
 
-//              if(mChainResult.type==0&&mChainResult.searchResults[index].imageList.length>0){
-//                return ItemImgTitle(title:mChainResult.searchResults[index].title,imgUrl: mChainResult.searchResults[index].imageList[0],);
-//              }else if(mChainResult.type==0&&mChainResult.searchResults[index].imageList.length==0){
-//                return ItemNoImg(
-//                  title: mChainResult.searchResults[index].title,
-//                  source: mChainResult.searchResults[index].source,
-//                );
-//              }
 
             },
 
@@ -264,29 +221,28 @@ class _ChainSearchPageState extends State<ChainSearchPage>with AutomaticKeepAliv
   }
 
 
-  Widget ChainVideoList (BuildContext context,Data  data) {
-    return Container(
-      height: 400,
-      width: 300,
-      child: ListView.builder(
-
-        scrollDirection: Axis.horizontal,
-        itemCount: data.searchResults.length,
-        itemBuilder:(context, index){
-          return ChainViewAdapter( result:data.searchResults[index]);
-        },
-
-      ),
-    );
-
-  }
-
+//  Widget ChainVideoList (BuildContext context,Data  data) {
+//    return Container(
+//      height: 400,
+//      width: 300,
+//      child: ListView.builder(
+//
+//        scrollDirection: Axis.horizontal,
+//        itemCount: data.searchResults.length,
+//        itemBuilder:(context, index){
+//          return ChainViewAdapter( result:data.searchResults[index]);
+//        },
+//
+//      ),
+//    );
+//
+//  }
 
 }
 
-Widget ChainVideoList (BuildContext context,Data  data) {
+  Widget ChainVideoList (BuildContext context,Data  data) {
   return Container(
-    height: 300,
+    height: 400,
     width: 300,
     child: ListView.builder(
 
@@ -303,8 +259,9 @@ Widget ChainVideoList (BuildContext context,Data  data) {
 
   Widget ChainNewsList (BuildContext context,Data  data) {
     return Container(
-      height:500,
+      height:520,
       width: double.infinity,
+      margin: EdgeInsets.only(left: 20,right: 20),
       child: ListView.builder(
         physics:NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
